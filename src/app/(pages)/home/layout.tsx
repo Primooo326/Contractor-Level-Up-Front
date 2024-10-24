@@ -1,7 +1,18 @@
-import React from 'react'
+import MainLayout from "@/layouts/MainLayout"
 
-export default function layout() {
+export const metadata = {
+    title: 'Contractor',
+}
+
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode
+}) {
+
     return (
-        <div>layout</div>
+        <MainLayout>
+            {children}
+        </MainLayout>
     )
 }

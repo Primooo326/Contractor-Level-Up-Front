@@ -39,7 +39,7 @@ const instance = (api: "contractor", headers?: any) => {
         (error) => {
             console.error("error response::::", error);
             if (error.response && Number(error.response.status) === 401) {
-                window.location.href = '/auth';
+                // window.location.href = '/auth';
             } else if (error.code === 'ERR_NETWORK') {
                 toast.error('Error de red, verifique su conexión a internet.');
             } else if (error.response.data.message) {
@@ -57,7 +57,7 @@ const instance = (api: "contractor", headers?: any) => {
     return instancia;
 }
 
-const responseBody = (response: AxiosResponse) => 
+const responseBody = (response: AxiosResponse) =>
     response ? response.data : response;
 
 export const fetchApiContractor = {

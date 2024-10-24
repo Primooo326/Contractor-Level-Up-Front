@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function page() {
     return (
-        <div>page</div>
+        <div className='bg-slate-200'>
+            <h1>Page</h1>
+        </div>
     )
 }

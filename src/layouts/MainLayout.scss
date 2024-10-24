@@ -1,0 +1,25 @@
+@import "src/app/globals.scss";
+
+.mainLayout {
+    display: grid;
+    min-width: 100dvw;
+    min-height: 100dvh;
+    grid-template-columns: auto auto 1fr;
+}
+
+.drawer {
+    width: $section3;
+    border-right: $border;
+
+}
+
+.header {
+    height: $section1;
+    border-bottom: $border;
+
+}
+
+.drawer2 {
+    width: $section4;
+    border-right: $border;
+}
