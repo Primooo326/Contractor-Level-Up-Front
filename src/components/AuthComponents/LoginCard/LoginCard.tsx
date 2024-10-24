@@ -23,18 +23,9 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
     const onClickLogin = async (e: any) => {
         setCargando(true);
         e.preventDefault();
-        try {
-            console.log(userForm, password);
-            const respuesta = await login(userForm, password);
-            setCargando(true)
-            Cookies.set("token", respuesta.data.token);
-            router.push("/control-corporativo/asistencia")
-        } catch (error: any) {
-            console.error(error);
-        }
-        setCargando(false);
+        router.push("/templates");
     };
-
+    
     const MostrarPass = () => {
         setMostrarPassword(!mostrarPassword);
     };
