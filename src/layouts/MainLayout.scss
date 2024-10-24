@@ -1,4 +1,4 @@
-@import "src/app/globals.scss";
+@import "src/app/variables.scss";
 
 .mainLayout {
     display: grid;
@@ -8,10 +8,22 @@
 }
 
 .drawer {
-    width: $section3;
+    width: $section4;
     border-right: $border;
-
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
 }
+
+.drawer2 {
+    width: $section5;
+    border-right: $border;
+    display: grid;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    grid-template-rows: auto 1fr;
+}
+
 
 .header {
     height: $section1;
@@ -19,7 +31,7 @@
 
 }
 
-.drawer2 {
-    width: $section4;
-    border-right: $border;
+.footer {
+    height: $section1;
+    border-top: $border;
 }

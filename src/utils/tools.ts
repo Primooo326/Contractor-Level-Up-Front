@@ -1,4 +1,4 @@
-import { fetchApiBase } from '@/api/instances'
+
 import { JWT_SECRET } from '@/config'
 import * as jose from 'jose'
 
@@ -38,20 +38,6 @@ export function formatTime(minutes: number): string {
     return [dayStr, hourStr, minuteStr].filter(Boolean).join(' ').trim();
 }
 
-export const generateDownloadExcel = async (data: any[], name: string) => {
-
-    const responseExcel = await fetchApiBase.downloadFile("excel/downloadExcel", { dataExport: data });
-
-    if (responseExcel) {
-        const url = window.URL.createObjectURL(new Blob([responseExcel], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `${name}.xlsx`);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-    }
-};
 export const getInitials = (name: string) => {
     const names = name.split(' ').filter(n => n.length > 0);
     if (names.length === 0) return '';
@@ -76,4 +62,29 @@ export const getRandomColorBg = () => {
         'bg-fuchsia-200 text-fuchsia-700',
     ];
     return colors[Math.floor(Math.random() * colors.length)];
+}
+
+export function timeAgo(timestamp: number): string {
+    const now = Date.now();
+    const seconds = Math.floor((now - timestamp) / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    // Formato de fecha
+    const date = new Date(timestamp);
+    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short' };
+    const formattedDate = date.toLocaleDateString('en-US', options).replace(',', '');
+
+    if (seconds < 60) {
+        return `${seconds} sec ago`;
+    } else if (minutes < 60) {
+        return `${minutes} min ago`;
+    } else if (hours < 24) {
+        return `${hours} h ago`;
+    } else if (days < 7) {
+        return `${days} d ago`;
+    } else {
+        return formattedDate; // Devuelve la fecha si han pasado más de 7 días
+    }
 }
