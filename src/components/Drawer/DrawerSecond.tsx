@@ -30,7 +30,7 @@ export default function DrawerSecond() {
                         <input type="text" className="grow" placeholder="Search user" />
                     </label>
                 </div>
-                <div className='space-y-6 overflow-y-auto scroll h-full'>
+                <div className='space-y-6 overflow-y-auto scrollbar-custom h-full'>
                     {conversations.map((conversation, index) => (
                         <div key={index} className='flex justify-between items-center w-full'>
                             <div className="flex items-center gap-2 w-full" >
