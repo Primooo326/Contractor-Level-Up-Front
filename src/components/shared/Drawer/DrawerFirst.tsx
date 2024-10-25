@@ -14,7 +14,7 @@ export default function DrawerFirst() {
                         <DynamicIcon icon='fa-solid:users' className='text-lg text-gray-500' />
                     </div>
                     <h3 className='font-semibold'>
-                        Users
+                        Usuarios
                     </h3>
                 </div>
                 <div className='bg-gray-100 w-full flex items-center rounded-lg py-3 px-4 gap-4' >
@@ -22,7 +22,7 @@ export default function DrawerFirst() {
                         <DynamicIcon icon='mingcute:paper-fill' className='text-lg text-gray-500' />
                     </div>
                     <h3 className='font-semibold'>
-                        Templates
+                        Plantillas
                     </h3>
                 </div>
             </div>

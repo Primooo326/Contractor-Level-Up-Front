@@ -1,8 +1,13 @@
+"use client";
 import { DynamicIcon } from '@/components/DynamicIcon'
-import React from 'react'
+import { useEffect } from 'react'
 import { conversations } from '@/mocks/conversations.mock'
 import { timeAgo } from '@/utils/tools'
 export default function DrawerSecond() {
+    useEffect(() => {
+        console.log('conversations: ', conversations);
+    }, []);
+    
     return (
         <div className='drawer2'>
 
