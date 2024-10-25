@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function page() {    
     return (
-        <div>page templates</div>
+        <div>page users</div>
     )
 }
