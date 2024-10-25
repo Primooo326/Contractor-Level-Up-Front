@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function DrawerFirst() {
     return (
-        <div className='drawer'>
+        <div className='drawer1'>
             <div className="header flex justify-center items-center gap-4 w-full">
                 <img src="/logo.png" alt="contractor" style={{ width: '40px' }} />
                 <h1 className='font-bold text-xl'>Contractor</h1>
