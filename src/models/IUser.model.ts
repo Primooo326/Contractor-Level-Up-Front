@@ -61,4 +61,4 @@ export interface IBodyLogin {
     user: IUser;
 }
 
-export type TUserLoginResponse = IResponseApiOne<IBodyLogin>
+export type TUserLoginResponse = IResponseApiOne<IBodyLogin> | IBodyLogin

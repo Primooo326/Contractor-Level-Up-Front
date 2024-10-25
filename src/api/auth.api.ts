@@ -1,7 +1,7 @@
-import { TUserLoginResponse } from "@/models/IUser.model";
-import { fetchApiContractor } from "./instances";
+import { IBodyLogin } from "@/models/IUser.model";
+import { fetchApiBase } from "./instances";
 
 
-export async function login(user: string, password: string): Promise<TUserLoginResponse> {
-    return fetchApiContractor.post(`/auth/login`, { user, password });
+export async function login(email: string, password: string): Promise<IBodyLogin> {
+    return fetchApiBase.post(`/auth/login`, { email, password });
 }

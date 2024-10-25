@@ -4,6 +4,8 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { verifyJWT } from "@/utils/tools";
 import { DynamicIcon } from "@/components/DynamicIcon";
+import { toast } from "react-toastify";
+import { login } from "@/api/auth.api";
 
 export default function LoginCard({ setCargando }: { setCargando: (b: boolean) => void, setReset: (b: boolean) => void }) {
     const router = useRouter();
@@ -22,7 +24,21 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
     const onClickLogin = async (e: any) => {
         setCargando(true);
         e.preventDefault();
-        router.push("/home");
+        try {
+            const res = await login(userForm, password);
+            
+            if (!res.token) {
+                toast.error('Error iniciando sesión...');
+                setCargando(false);
+                return;
+            }
+            setCargando(true)
+            Cookies.set("token", res.token);
+            router.push("/home")
+        } catch (error: any) {
+            console.error(error);
+        }
+        setCargando(false);
     };
 
     const MostrarPass = () => {
@@ -33,7 +49,7 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
         const data = await verifyJWT(token);
         if (data !== false) {
             setCargando(false);
-            router.push("/dashboard");
+            router.push("/home");
         }
     };
 
@@ -58,7 +74,7 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
                         <input
                             onChange={handleUsuarioChange}
                             type="text"
-                            placeholder="Usuario"
+                            placeholder="Correo"
                             className="bg-gray-100 outline-none grow"
                         />
                     </div>

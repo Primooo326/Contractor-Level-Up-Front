@@ -1,14 +1,16 @@
-import { API_CONTRACTOR_URL } from "@/config";
+import { API_BASE_URL, API_CONTRACTOR_URL } from "@/config";
 import axios, { type AxiosResponse, type ResponseType } from 'axios';
 import { toast } from "react-toastify";
 import Cookies from "js-cookie"
 
-const instance = (api: "contractor", headers?: any) => {
+const instance = (api: "contractor" | "base", headers?: any) => {
     let baseURL: string = 'contractor';
     if (api === 'contractor') {
         baseURL = API_CONTRACTOR_URL;
+    } else if (api === 'base') {
+        baseURL = API_BASE_URL;
     } else {
-        baseURL = API_CONTRACTOR_URL;
+        baseURL = API_BASE_URL;
     }
 
     const instancia = axios.create({
@@ -17,6 +19,7 @@ const instance = (api: "contractor", headers?: any) => {
             "Content-Type": "application/json",
         },
     });
+    
     instancia.interceptors.request.use(
         (config) => {
             let token = ""
@@ -75,4 +78,19 @@ export const fetchApiContractor = {
     delete: (url: string) => instance("contractor").delete(url).then(responseBody),
     downloadFile: (url: string, body: any, _instance: "contractor" = "contractor") => instance(_instance).post(url, body, { responseType: 'blob' }).then(responseBody),
     downloadFileGet: (url: string, _instance: "contractor" = "contractor") => instance(_instance).get(url, { responseType: 'blob' }).then(responseBody),
+};
+
+export const fetchApiBase = {
+    get: (url: string, responseType?: ResponseType) =>
+        instance("base")
+            .get(url, {
+                responseType,
+            })
+            .then(responseBody),
+    post: (url: string, body?: any) =>
+        instance("base").post(url, body).then(responseBody),
+    put: (url: string, body?: any) => instance("base").put(url, body).then(responseBody),
+    patch: (url: string, body?: any) =>
+        instance("base").patch(url, body).then(responseBody),
+    delete: (url: string) => instance("base").delete(url).then(responseBody),
 };

@@ -1,7 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-export default function page() {    
+export default function UsersPage() {
     return (
-        <div>page users</div>
-    )
+        <div>
+            <h1>Usuarios</h1>
+            <p>Listado de usuarios</p>
+        </div>
+    );
 }

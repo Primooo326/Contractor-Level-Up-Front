@@ -18,6 +18,12 @@ export interface IResponseApiOne<T> {
   message: string;
 }
 
+export interface IResponseAuth<T> {
+  resetPass: boolean;
+  token: string;
+  user: any;
+}
+
 export interface IParamsRequest {
   term?: string;
   page?: number;
