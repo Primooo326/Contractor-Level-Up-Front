@@ -4,7 +4,7 @@ import DrawerFirst from '@/components/Drawer/DrawerFirst'
 import DrawerSecond from '@/components/Drawer/DrawerSecond'
 export default function layout({ children }: { children: React.ReactNode }) {
     return (
-        <main className="mainLayout">
+        <main className="mainLayout" data-theme="light">
 
             <DrawerFirst />
             <DrawerSecond />
