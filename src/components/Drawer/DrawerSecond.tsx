@@ -25,8 +25,10 @@ export default function DrawerSecond() {
             </div>
             <div className='p-4 space-y-6 h-full overflow-hidden mb-6'>
                 <div className='flex justify-between items-center' >
-                    <p className='text-sm'>Chats</p>
-                    <DynamicIcon icon='mynaui:filter' className='text-gray-500' />
+                    <label className="input input-bordered input-sm flex items-center gap-2 w-full">
+                        <DynamicIcon icon='fa-solid:search' className=' text-gray-500' />
+                        <input type="text" className="grow" placeholder="Search user" />
+                    </label>
                 </div>
                 <div className='space-y-6 overflow-y-auto scroll h-full'>
                     {conversations.map((conversation, index) => (

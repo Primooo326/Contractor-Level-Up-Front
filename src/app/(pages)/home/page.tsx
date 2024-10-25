@@ -7,9 +7,6 @@ import { timeAgo } from '@/utils/tools'
 export default function page() {
 
     const { contact } = useChatStore()
-    const userId = "user1"; // El ID del usuario actual
-
-    const chatData = []
     return (
         <>
             {contact ? <div className='pageChat'>
