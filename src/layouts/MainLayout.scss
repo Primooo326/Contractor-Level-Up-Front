@@ -1,0 +1,78 @@
+@import "src/app/variables.scss";
+
+.mainLayout {
+    display: grid;
+    min-width: 100dvw;
+    min-height: 100dvh;
+    grid-template-columns: auto auto 1fr;
+}
+
+.drawer1 {
+    min-width: $section4;
+    border-right: $border;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100dvh;
+}
+
+.header-d1 {
+    height: $section1;
+    border-bottom: $border;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem;
+}
+
+.profile {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.drawer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 1rem 0;
+    flex-grow: 1;
+}
+
+.footer {
+    height: $section1;
+    border-top: $border;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer button {
+    width: auto;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.drawer2 {
+    width: $section5;
+    border-right: $border;
+    display: grid;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    grid-template-rows: auto 1fr;
+}
+
+
+.header {
+    height: $section1;
+    border-bottom: $border;
+
+}
+
+.footer {
+    height: $section1;
+    border-top: $border;
+}

@@ -1,0 +1,39 @@
+$background: #fff;
+$foreground: #171717;
+$currentWidth: 100dvw;
+
+$section1: calc(1/20 * 100dvw);
+$section2: calc(2/20 * 100dvw);
+$section3: calc(3/20 * 100dvw);
+$section4: calc(4/20 * 100dvw);
+$section5: calc(5/20 * 100dvw);
+$section6: calc(6/20 * 100dvw);
+$section7: calc(7/20 * 100dvw);
+$section8: calc(8/20 * 100dvw);
+$section9: calc(9/20 * 100dvw);
+$section10: calc(10/20 * 100dvw);
+$section11: calc(11/20 * 100dvw);
+$section12: calc(12/20 * 100dvw);
+
+$border: .5px solid #d5d5d5;
+
+:export {
+
+    background: $background;
+    foreground: $foreground;
+    currentWidth: $currentWidth;
+    border: $border;
+    section1: $section1;
+    section2: $section2;
+    section3: $section3;
+    section4: $section4;
+    section5: $section5;
+    section6: $section6;
+    section7: $section7;
+    section8: $section8;
+    section9: $section9;
+    section10: $section10;
+    section11: $section11;
+    section12: $section12;
+
+}

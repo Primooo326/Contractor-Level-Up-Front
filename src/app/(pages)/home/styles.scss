@@ -1,0 +1,39 @@
+@import 'src/app/variables.scss';
+
+.pageChat {
+    border-right: $border;
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
+}
+
+.footerChat {
+    min-height: $section1;
+}
+
+
+textarea {
+    /* Elimina el borde del textarea */
+    border: none;
+
+    /* Elimina cualquier sombra interna que pueda aparecer */
+    box-shadow: none;
+
+    /* Quita el contorno que aparece al enfocar el textarea */
+    outline: none;
+
+    /* Evita que el usuario pueda redimensionar el textarea */
+    resize: none;
+
+    /* Fondo transparente */
+    background-color: transparent;
+
+
+    font-size: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    height: fit-content;
+}
+
+/* Opcional: Estilo al enfocar el textarea */
