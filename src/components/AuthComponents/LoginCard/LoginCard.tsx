@@ -65,9 +65,9 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
         <div className="flex flex-col items-center justify-center h-screen px-4 bg-gray-100">
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
                 <div className="flex justify-center mb-4">
-                    <Image src="/logo.png" width={50} height={50} alt="Logo" />
+                    <Image src="/logo.jpg" width={300} height={50} alt="Logo" />
                 </div>
-                <h1 className="text-center text-xl font-bold text-gray-700 mb-6">Inicio de Sesión</h1>
+                <h1 className="text-center text-xl text-gray-900 mb-6 mt-5">Inicio de Sesión</h1>
                 <form>
                     <div className="flex items-center bg-gray-100 rounded-lg py-2 px-3 mb-4">
                         <DynamicIcon icon='fa-solid:users' className='text-lg text-gray-500 mr-3' />

@@ -3,7 +3,6 @@ import React from 'react'
 import "./styles.scss"
 import { DynamicIcon } from '@/components/DynamicIcon'
 import { useChatStore } from '@/hooks/chat.hook'
-import { timeAgo } from '@/utils/tools'
 export default function page() {
 
     const { contact } = useChatStore()

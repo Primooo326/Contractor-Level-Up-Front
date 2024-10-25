@@ -32,8 +32,7 @@ export default function DrawerFirst() {
     return (
         <div className='drawer1'>
             <div className="header-d1">
-                <img src="/logo.png" alt="contractor" style={{ width: '40px' }} />
-                <h1 className='font-bold text-xl'>Contractor</h1>
+                <img src="/logo.jpg" alt="contractor" style={{ width: '280px' }} />
             </div>
 
             <div className='profile'>
