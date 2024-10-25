@@ -1,13 +1,19 @@
 "use client";
 import { DynamicIcon } from '@/components/DynamicIcon'
-import { useEffect } from 'react'
-import { conversations } from '@/mocks/conversations.mock'
+import { useEffect, useState } from 'react'
 import { timeAgo } from '@/utils/tools'
+import { getConversations } from '@/api/goHighLevel/conversations.api';
 export default function DrawerSecond() {
+    const [conversations, setConversations] = useState<IConversation[]>([]);
+
     useEffect(() => {
-        console.log('conversations: ', conversations);
+        async function fetchConversations() {
+            const data: IConversationsReturn = await getConversations();
+            setConversations(data?.conversations);
+        }
+        fetchConversations();
     }, []);
-    
+
     return (
         <div className='drawer2'>
 

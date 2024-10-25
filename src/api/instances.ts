@@ -1,4 +1,4 @@
-import { API_BASE_URL, API_CONTRACTOR_URL } from "@/config";
+import { API_BASE_URL, API_CONTRACTOR_URL, CONTRACTOR_KEY } from "@/config";
 import axios, { type AxiosResponse, type ResponseType } from 'axios';
 import { toast } from "react-toastify";
 import Cookies from "js-cookie"
@@ -17,16 +17,20 @@ const instance = (api: "contractor" | "base", headers?: any) => {
         baseURL,
         headers: headers ?? {
             "Content-Type": "application/json",
+            "version": "2021-07-28",
         },
     });
     
     instancia.interceptors.request.use(
         (config) => {
+            let tokenContractor = CONTRACTOR_KEY;
             let token = ""
             if (Cookies.get('token')) {
                 token = String(Cookies.get('token'));
             }
-            if (token) {
+            if (api = 'contractor'){
+                config.headers.Authorization = tokenContractor ? `Bearer ${tokenContractor}` : null;
+            }else if (token) {
                 config.headers.Authorization = token ? `Bearer ${token}` : null;
             }
             return config;
@@ -66,7 +70,7 @@ const responseBody = (response: AxiosResponse) =>
 export const fetchApiContractor = {
     get: (url: string, responseType?: ResponseType) =>
         instance("contractor")
-            .get(url, {
+            .get(url, { 
                 responseType,
             })
             .then(responseBody),

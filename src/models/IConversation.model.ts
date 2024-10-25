@@ -25,6 +25,10 @@ interface IConversation {
     sort: number[];
 }
 
+interface IConversationsReturn {
+    conversations: IConversation[];
+}
+
 interface IConversationsResponse {
     conversations: IConversation[];
     total: number;
