@@ -27,48 +27,16 @@
             font-weight: 600;
             color: #1f2937;
         }
+
+        .table-cell {
+            font-weight: bold;
+        }
     }
 }
 
 .actions-container {
     display: flex;
     gap: 1.25rem;
-
-    .btn-view {
-        background-color: #f59e0b;
-        color: #ffffff;
-        font-size: 0.875rem;
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
-
-        &:hover {
-            background-color: #d97706;
-        }
-    }
-
-    .btn-deactivate {
-        background-color: #ef4444;
-        color: #ffffff;
-        font-size: 0.875rem;
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
-
-        &:hover {
-            background-color: #b91c1c;
-        }
-    }
-
-    .btn-activate {
-        background-color: #50c34c;
-        color: #ffffff;
-        font-size: 0.875rem;
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
-
-        &:hover {
-            background-color: #3e953b;
-        }
-    }
 }
 
 .user-view-header {
