@@ -11,6 +11,11 @@
     min-height: $section1;
 }
 
+.bodyChat {
+    height: calc(100dvh - $section2);
+}
+
+
 
 textarea {
     /* Elimina el borde del textarea */
