@@ -29,12 +29,9 @@
         color: #1f2937;
     }
 
-    button {
-        color: white;
-    }
-
     .table-cell {
         font-weight: bold;
+        font-size: 1rem;
     }
 }
 
@@ -54,14 +51,24 @@
     }
 
     .table-cell {
-        flex: 1;
         padding: 0.5rem;
+        text-align: left;
+        flex: 1;
+
+        &:last-child {
+            flex: none;
+            width: 18%;
+            text-align: center;
+        }
     }
 }
 
 .actions-container {
     display: flex;
     gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 
     button {
         color: white;
