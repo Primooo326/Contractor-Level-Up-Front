@@ -29,18 +29,10 @@
         color: #1f2937;
     }
 
-    button {
-        color: white;
-    }
-
     .table-cell {
         font-weight: bold;
+        font-size: 1rem;
     }
-}
-
-.table {
-    display: flex;
-    flex-direction: column;
 }
 
 .table {
@@ -65,7 +57,7 @@
 
         &:last-child {
             flex: none;
-            width: 100px;
+            width: 18%;
             text-align: center;
         }
     }
@@ -74,6 +66,9 @@
 .actions-container {
     display: flex;
     gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 
     button {
         color: white;
