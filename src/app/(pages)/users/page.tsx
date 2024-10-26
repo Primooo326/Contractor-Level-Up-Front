@@ -76,7 +76,7 @@ export default function Page() {
     };
 
     return (
-        <div className="user-page-container">
+        <div className="page-container">
             <div className="table-container">
                 <div className="table-header">
                     <h1>Usuarios</h1>
@@ -115,12 +115,7 @@ export default function Page() {
                                     </div>
                                 </div>
                                 <div className="table-cell actions-container">
-                                    <button
-                                        className={row.status ? "btn btn-error btn-sm" : "btn btn-success btn-sm"}
-                                        onClick={() => updateState(row)}
-                                    >
-                                        {row.status ? "Desactivar" : "Activar"}
-                                    </button>
+                                    <button className={row.status ? "btn btn-error btn-sm" : "btn btn-success btn-sm"} onClick={() => updateState(row)}>{row.status ? "Desactivar" : "Activar"} </button>
                                 </div>
                             </div>
                         ))}

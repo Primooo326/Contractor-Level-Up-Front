@@ -8,11 +8,13 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function DrawerFirst() {
     const [isMounted, setIsMounted] = useState(false);
+    const [tokenDecrypted, setTokenDecrypted] = useState({ userName: '', userEmail: '' });
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
         setIsMounted(true);
+        fetchData();
     }, []);
 
     const handleLogout = () => {
@@ -21,6 +23,19 @@ export default function DrawerFirst() {
             Cookies.remove("token")
             router.push("/")
         }
+    };
+
+    const fetchData = () => {
+        const token = Cookies.get("token") || null;
+        if (token) {
+            const decoded = decodeToken(token);
+            setTokenDecrypted(decoded);
+        }
+    }
+
+    const decodeToken = (token: any) => {
+        const payload = token.split('.')[1];
+        return JSON.parse(atob(payload));
     };
 
     const menuItems = [
@@ -36,10 +51,10 @@ export default function DrawerFirst() {
             </div>
 
             <div className='profile'>
-                <img src="https://ui-avatars.com/api/?name=John+Doe" alt="contractor" className='rounded-full w-10' />
+                <img src={`https://ui-avatars.com/api/?name=${tokenDecrypted.userName}`} alt="contractor" className='rounded-full w-10' />
                 <div>
-                    <h1 className='font-bold'>Jon Doe</h1>
-                    <p className='text-sm font-light'>john@doe.com</p>
+                    <h1 className='font-bold'>{tokenDecrypted.userName}</h1>
+                    <p className='text-sm font-light'>{tokenDecrypted.userEmail}</p>
                 </div>
             </div>
 
