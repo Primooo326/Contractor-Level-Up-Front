@@ -53,11 +53,11 @@ export default function page() {
         let status: boolean;
         if (e.status) {
             status = false;
-        }else{
+        } else {
             status = true;
         }
-        
-        toast.promise(updateUser(e!.id, {status}), {
+
+        toast.promise(updateUser(e!.id, { status }), {
             pending: "Actualizando estado...",
         }).then((res) => {
             if (res) {
@@ -82,7 +82,7 @@ export default function page() {
             name: "Correo Electrónico",
             cell: (row) => row.email,
             selector: (row) => row.email,
-            sortable: true
+            sortable: true,
         },
         {
             name: "Estado",
@@ -99,7 +99,7 @@ export default function page() {
             ),
             selector: (row) => row.status,
             sortable: true
-        },        
+        },
         {
             name: "Acciones",
             cell: (row) => (
