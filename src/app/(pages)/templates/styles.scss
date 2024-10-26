@@ -54,8 +54,15 @@
     }
 
     .table-cell {
-        flex: 1;
         padding: 0.5rem;
+        text-align: left;
+        flex: 1;
+
+        &:last-child {
+            flex: none;
+            width: 15%;
+            text-align: center;
+        }
     }
 }
 
