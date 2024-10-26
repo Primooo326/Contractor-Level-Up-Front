@@ -2,9 +2,14 @@
 
 .mainLayout {
     display: grid;
-    min-width: 100dvw;
-    min-height: 100dvh;
-    grid-template-columns: auto auto 1fr;
+    min-width: 100vw;
+    min-height: 100vh;
+
+    grid-template-columns: auto 1fr;
+
+    &.with-second-drawer {
+        grid-template-columns: auto auto 1fr;
+    }
 }
 
 .drawer1 {

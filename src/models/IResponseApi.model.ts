@@ -3,12 +3,9 @@ export interface IResponseApi<T> {
   statusCode: number;
   message: string;
   meta: {
+    total: number;
     page: number;
-    take: number;
-    itemCount: number;
-    pageCount: number;
-    hasPreviousPage: boolean;
-    hasNextPage: boolean;
+    lastPage: number;
   };
 }
 
@@ -25,8 +22,6 @@ export interface IResponseAuth<T> {
 }
 
 export interface IParamsRequest {
-  term?: string;
   page?: number;
-  take?: number;
-  order?: "ASC" | "DESC";
+  limit?: number;
 }
