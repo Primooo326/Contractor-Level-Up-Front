@@ -8,11 +8,13 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function DrawerFirst() {
     const [isMounted, setIsMounted] = useState(false);
+    const [tokenDecrypted, setTokenDecrypted] = useState({ userName: '', userEmail: '' });
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
         setIsMounted(true);
+        fetchData();
     }, []);
 
     const handleLogout = () => {
@@ -21,6 +23,19 @@ export default function DrawerFirst() {
             Cookies.remove("token")
             router.push("/")
         }
+    };
+
+    const fetchData = () => {
+        const token = Cookies.get("token") || null;
+        if (token) {
+            const decoded = decodeToken(token);
+            setTokenDecrypted(decoded);
+        }
+    }
+
+    const decodeToken = (token: any) => {
+        const payload = token.split('.')[1];
+        return JSON.parse(atob(payload));
     };
 
     const menuItems = [
@@ -35,7 +50,18 @@ export default function DrawerFirst() {
                 <img src="/logo.jpg" alt="contractor" style={{ width: '280px' }} />
             </div>
 
-
+            <div className='profile'>
+                <img
+                    src={`https://ui-avatars.com/api/?name=${tokenDecrypted.userName.replaceAll(" ", "+")}&background=random`}
+                    alt="contractor"
+                    className="rounded-full"
+                    style={{ width: '40px' }}
+                />
+                <div>
+                    <h1 className='font-bold'>{tokenDecrypted.userName}</h1>
+                    <p className='text-sm font-light'>{tokenDecrypted.userEmail}</p>
+                </div>
+            </div>
 
             <div className="drawer-buttons">
                 {menuItems.map(({ icon, label, route }, idx) => (
@@ -48,20 +74,6 @@ export default function DrawerFirst() {
                         </button>
                     </Link>
                 ))}
-            </div>
-
-            <div className='footer'>
-                <div className='profile'>
-
-                    <img src="https://ui-avatars.com/api/?name=John+Doe" alt="contractor" className='rounded-full w-10' />
-                    <div>
-                        <h1 className='font-bold'>Jon Doe</h1>
-                        <p className='text-sm font-light'>john@doe.com</p>
-                    </div>
-                </div>
-                <button className='btn btn-error btn-sm flex items-center justify-center text-white' onClick={handleLogout}>
-                    <DynamicIcon icon='basil:logout-solid' className='text-lg' />
-                </button>
             </div>
         </div>
     );
