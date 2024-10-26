@@ -35,13 +35,7 @@ export default function DrawerFirst() {
                 <img src="/logo.jpg" alt="contractor" style={{ width: '280px' }} />
             </div>
 
-            <div className='profile'>
-                <img src="https://ui-avatars.com/api/?name=John+Doe" alt="contractor" className='rounded-full w-10' />
-                <div>
-                    <h1 className='font-bold'>Jon Doe</h1>
-                    <p className='text-sm font-light'>john@doe.com</p>
-                </div>
-            </div>
+
 
             <div className="drawer-buttons">
                 {menuItems.map(({ icon, label, route }, idx) => (
@@ -57,8 +51,16 @@ export default function DrawerFirst() {
             </div>
 
             <div className='footer'>
-                <button className='w-full text-left px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition' onClick={handleLogout}>
-                    Cerrar Sesión
+                <div className='profile'>
+
+                    <img src="https://ui-avatars.com/api/?name=John+Doe" alt="contractor" className='rounded-full w-10' />
+                    <div>
+                        <h1 className='font-bold'>Jon Doe</h1>
+                        <p className='text-sm font-light'>john@doe.com</p>
+                    </div>
+                </div>
+                <button className='btn btn-error btn-sm flex items-center justify-center text-white' onClick={handleLogout}>
+                    <DynamicIcon icon='basil:logout-solid' className='text-lg' />
                 </button>
             </div>
         </div>

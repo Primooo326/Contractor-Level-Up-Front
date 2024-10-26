@@ -3,8 +3,15 @@ import { DynamicIcon } from '@/components/DynamicIcon'
 import { useEffect, useState } from 'react'
 import { timeAgo } from '@/utils/tools'
 import { getConversations } from '@/api/goHighLevel/conversations.api';
+import { useChatStore } from '@/hooks/chat.hook';
 export default function DrawerSecond() {
     const [conversations, setConversations] = useState<IConversation[]>([]);
+    const { setChat, setContact, setCurrentConversation } = useChatStore()
+
+    const selectConversation = (conversation: IConversation) => {
+        console.log(conversation)
+        setCurrentConversation(conversation)
+    }
 
     useEffect(() => {
         async function fetchConversations() {
@@ -36,15 +43,15 @@ export default function DrawerSecond() {
                         <input type="text" className="grow" placeholder="Search user" />
                     </label>
                 </div>
-                <div className='space-y-6 overflow-y-auto scrollbar-custom h-full'>
+                <div className='listConversations space-y-2 overflow-y-auto scrollbar-custom pb-10'>
                     {conversations.map((conversation, index) => (
-                        <div key={index} className='flex justify-between items-center w-full'>
+                        <div key={index} className='flex justify-between items-center w-full hover:bg-gray-100 p-4 rounded-lg' onClick={() => selectConversation(conversation)}>
                             <div className="flex items-center gap-2 w-full" >
 
                                 <img src={`https://ui-avatars.com/api/?name=${conversation.contactName}&background=random`} alt="contractor" className='rounded-full' style={{ width: '40px' }} />
                                 <div>
                                     <h1 className='font-bold text-sm'>{conversation.contactName}</h1>
-                                    <p className='text-sm font-light'>
+                                    <p className='text-sm font-light line-clamp-1'>
                                         {conversation.lastMessageBody}
                                     </p>
                                 </div>

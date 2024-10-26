@@ -42,7 +42,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 1rem 0;
+    padding: 1rem;
     flex-grow: 1;
 }
 
@@ -55,18 +55,11 @@
     align-items: center;
 }
 
-.footer button {
-    width: auto;
-    padding: 10px 20px;
-    text-align: center;
-}
-
 .drawer2 {
     width: $section5;
     border-right: $border;
     display: grid;
-    min-height: 100dvh;
-    max-height: 100dvh;
+    height: 100dvh;
     grid-template-rows: auto 1fr;
 }
 
@@ -80,4 +73,8 @@
 .footer {
     height: $section1;
     border-top: $border;
+}
+
+.listConversations {
+    height: calc(100dvh - $section2)
 }

@@ -4,36 +4,51 @@ interface IAttributionSource {
 }
 
 interface ICreatedBy {
-    sourceId: string;
-    channel: string;
     source: string;
+    channel: string;
+    sourceId: string;
     timestamp: string;
+}
+
+interface IDndSetting {
+    status: string;
+    message: string;
+}
+
+interface IDndSettings {
+    SMS: IDndSetting;
+    Call: IDndSetting;
+    Email: IDndSetting;
+    WhatsApp: IDndSetting;
+    FB: IDndSetting;
+    GMB: IDndSetting;
 }
 
 interface IContact {
     id: string;
-    country: string;
+    dateAdded: string;
     type: string;
     locationId: string;
-    attributionSource: IAttributionSource;
-    lastNameLowerCase: string;
-    emailLowerCase: string;
     firstName: string;
-    email: string;
+    firstNameLowerCase: string;
     fullNameLowerCase: string;
     lastName: string;
-    firstNameLowerCase: string;
-    createdBy: ICreatedBy;
-    dateAdded: string;
+    lastNameLowerCase: string;
+    email: string;
+    emailLowerCase: string;
     phone: string;
-    tags: string[];
+    country: string;
+    attributionSource: IAttributionSource;
+    createdBy: ICreatedBy;
     followers: string[];
     assignedTo: string;
-    attachments: string[];
+    dndSettings: IDndSettings;
+    dnd: boolean;
+    tags: string[];
     dateUpdated: string;
-    customFields: string[];
-    additionalEmails: string[];
-    additionalPhones: string[];
+    customFields: any[];
+    additionalEmails: any[];
+    additionalPhones: any[];
 }
 
 interface IContactResponse {
