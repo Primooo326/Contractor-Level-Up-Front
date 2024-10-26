@@ -8,16 +8,16 @@ import { usePathname } from 'next/navigation';
 
 interface LayoutProps {
     children: React.ReactNode;
-    showSecondDrawer?: boolean;
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function MainLayout({ children }: LayoutProps) {
     const pathname = usePathname();
+    const showSecondDrawer = pathname === '/home';
 
     return (
-        <main className="mainLayout" data-theme="light">
+        <main className={`mainLayout ${showSecondDrawer ? 'with-second-drawer' : ''}`} data-theme="light">
             <DrawerFirst />
-            {pathname === '/home' && <DrawerSecond/>}
+            {showSecondDrawer && <DrawerSecond />}
             {children}
         </main>
     );

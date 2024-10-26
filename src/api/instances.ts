@@ -2,6 +2,7 @@ import { API_BASE_URL, API_CONTRACTOR_URL, CONTRACTOR_KEY } from "@/config";
 import axios, { type AxiosResponse, type ResponseType } from 'axios';
 import { toast } from "react-toastify";
 import Cookies from "js-cookie"
+import { IParamsRequest } from "@/models/IResponseApi.model";
 
 const instance = (api: "contractor" | "base", headers?: any) => {
     let baseURL: string = 'contractor';
@@ -85,15 +86,16 @@ export const fetchApiContractor = {
 };
 
 export const fetchApiBase = {
-    get: (url: string, responseType?: ResponseType) =>
+    get: (url: string, params?: IParamsRequest, responseType?: ResponseType) =>
         instance("base")
             .get(url, {
+                params,
                 responseType,
             })
             .then(responseBody),
     post: (url: string, body?: any) =>
         instance("base").post(url, body).then(responseBody),
-    put: (url: string, body?: any) => instance("base").put(url, body).then(responseBody),
+    put: (url: string, body?: any) => instance("base").patch(url, body).then(responseBody),
     patch: (url: string, body?: any) =>
         instance("base").patch(url, body).then(responseBody),
     delete: (url: string) => instance("base").delete(url).then(responseBody),
