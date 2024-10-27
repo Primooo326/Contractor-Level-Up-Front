@@ -1,13 +1,21 @@
 import { DynamicIcon } from '@/components/DynamicIcon'
 import { useChatStore } from '@/hooks/chat.hook'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ModalTemplates from './ModalTemplates'
 
 export default function FooterChat() {
-    const { setOnModalTemplate } = useChatStore()
+    const { setOnModalTemplate, templateSelected, setTemplateSelected } = useChatStore()
     const handleOpenTemplate = () => {
         setOnModalTemplate(true)
     }
+
+    const handleSendMessage = () => {
+        console.log(templateSelected)
+    }
+
+    useEffect(() => {
+        console.log(templateSelected)
+    }, [templateSelected])
     return (
         <>
             <div className='py-2 px-4 footerChat' >
@@ -15,12 +23,10 @@ export default function FooterChat() {
                     <button className="btn btn-sm bg-indigo-500 text-white" onClick={handleOpenTemplate}>
                         <DynamicIcon icon='mingcute:paper-fill' className='text-lg text-white' />
                     </button>
-                    <textarea className='textareaChat font-light text-xs' placeholder='Write a message' />
-                    <div className='flex gap-4 items-center' >
-
-                        <DynamicIcon icon='heroicons:paper-clip-16-solid' className='text-lg text-gray-500' />
+                    <textarea value={templateSelected?.description} className='textareaChat font-light text-xs' placeholder='Write a message' onChange={(e) => setTemplateSelected(e.target.value)} />
+                    <button className='flex gap-4 items-center' >
                         <DynamicIcon icon='fa-solid:paper-plane' className='text-lg text-gray-500' />
-                    </div>
+                    </button>
                 </div>
             </div>
             <ModalTemplates />

@@ -9,16 +9,17 @@ import { stylesSelect } from '@/utils/constants'
 
 export default function ModalTemplates() {
 
-    const { setOnModalTemplate, onModalTemplate } = useChatStore()
-    const [templates, setTemplates] = useState<any[]>([]);
+    const { setOnModalTemplate, onModalTemplate, setTemplateSelected, templateSelected } = useChatStore()
+    const [template, setTemplate] = useState<any | null>(null);
     const [tab, setTab] = useState<"sms" | "wha">("sms");
     const [options, setOptions] = useState<{ value: any, label: string }[]>([])
 
     const fetchData = async (page: number = 1, limit: number = 5) => {
         try {
             const response = await getTemplates({ page, limit });
-            console.log(response);
-
+            setOptions(response.data.map((t) => {
+                return { value: t, label: t.description }
+            }));
         } catch (error) {
             console.error("Fetch templates error: ", error);
         } finally {
@@ -29,7 +30,12 @@ export default function ModalTemplates() {
     }
 
     const handleSelectMessage = (value: any) => {
-        console.log(value);
+        setTemplate(value)
+    }
+
+    const handleSelectTemplate = () => {
+        setTemplateSelected(template.value)
+        setOnModalTemplate(false)
     }
 
     useEffect(() => {
@@ -51,16 +57,22 @@ export default function ModalTemplates() {
                 <a role="tab" onClick={() => setTab("sms")} className={`tab ${tab === "sms" ? "tab-active" : ""}`}>SMS</a>
                 <a role="tab" onClick={() => setTab("wha")} className={`tab ${tab === "wha" ? "tab-active" : ""}`}>WhatsApp</a>
             </div>
+            <div className="p-8 space-y-8" >
 
-            <div>
-                <Select
-                    className='w-[350px]'
-                    onChange={handleSelectMessage}
-                    options={options}
-                    styles={stylesSelect}
-                    placeholder='Seleccionar rol'
-                    isClearable
-                />
+                <div className=' w-full flex justify-center items-center' >
+                    <Select
+                        defaultValue={template}
+                        className='w-[350px]'
+                        onChange={handleSelectMessage}
+                        options={options}
+                        styles={stylesSelect}
+                        placeholder='Select Template'
+                        isClearable
+                    />
+                </div>
+                <div className="flex justify-end" >
+                    <button className='btn btn-success text-white' onClick={handleSelectTemplate}>Select template</button>
+                </div>
             </div>
 
             <div>
