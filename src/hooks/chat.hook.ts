@@ -8,6 +8,10 @@ interface ChatState {
     setChat: (chat: IMessages | null) => void;
     currentConversation: IConversation | null;
     setCurrentConversation: (currentConversation: IConversation | null) => void;
+    onModalTemplate: boolean;
+    setOnModalTemplate: (isOpen: boolean) => void;
+    contactsList: IContact[];
+    setContactsList: (contactsList: IContact[]) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -16,5 +20,9 @@ export const useChatStore = create<ChatState>((set) => ({
     chat: null,
     setChat: (chat: IMessages | null) => set({ chat }),
     currentConversation: null,
-    setCurrentConversation: (currentConversation: IConversation | null) => set({ currentConversation })
+    setCurrentConversation: (currentConversation: IConversation | null) => set({ currentConversation }),
+    onModalTemplate: false,
+    setOnModalTemplate: (isOpen: boolean) => set({ onModalTemplate: isOpen }),
+    contactsList: [],
+    setContactsList: (contactsList: IContact[]) => set({ contactsList }),
 }))
