@@ -206,7 +206,7 @@ export default function Page() {
                                 <label className='label'>Descripción</label>
                                 <textarea
                                     className='textarea textarea-bordered'
-                                    defaultValue={templateToEdit ? templateToEdit.PREFUN_ID : null}
+                                    defaultValue={templateToEdit ? templateToEdit.id : null}
                                     {...register('description', { required: true, minLength: 3 })}
                                     rows={4}
                                 />
