@@ -1,4 +1,6 @@
 import MainLayout from "@/layouts/MainLayout"
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata = {
     title: 'Contractor',
@@ -13,6 +15,7 @@ export default function RootLayout({
     return (
         <MainLayout>
             {children}
+            <ToastContainer />
         </MainLayout>
     )
 }

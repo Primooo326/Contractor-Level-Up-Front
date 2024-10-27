@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { FaXmark } from 'react-icons/fa6';
 
 export default function Page() {
-    const { register, handleSubmit, setValue, reset, getValues } = useForm();
+    const { register, handleSubmit, setValue, reset, getValues, watch } = useForm();
 
     const [data, setData] = useState<ITemplate[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -48,6 +48,12 @@ export default function Page() {
         "Direccion",
     ];
 
+    const description = watch("description", "");
+
+    useEffect(() => {
+        setButtonDisabled(description.length < 4);
+    }, [description]);
+
     const fetchData = async (page: number = 1, limit: number = 5) => {
         setLoading(true);
         try {
@@ -72,7 +78,7 @@ export default function Page() {
     const onSubmit = async (data: any) => {
         setButtonDisabled(true);
         try {
-            if (templateToEdit.description) {
+            if (templateToEdit?.description) {
                 const response = await updateTemplate({ description: data.description }, templateToEdit.id);
                 if (response) {
                     fetchData();
@@ -119,10 +125,9 @@ export default function Page() {
     };
 
     const handleButtonClick = (text: string, isClient: boolean) => {
-        const currentDescription = getValues('description') || ''; 
+        const currentDescription = getValues('description') || '';
         setValue('description', `${currentDescription}{${isClient ? 'client' : 'user'}${text}}`);
     };
-    
 
     useEffect(() => {
         fetchData();
@@ -274,7 +279,7 @@ export default function Page() {
                         </div>
                         <div className='flex justify-center gap-5 mt-5'>
                             <button className="btn btn-error t-white" onClick={() => setTemplateToDelete(null)}>Cancelar</button>
-                            <button className="btn btn-success t-white" onClick={() => onDeleteTemplate(templateToDelete.id)} disabled={inputVerify !== `confirmar` || buttonDisabled}>Eliminar</button>
+                            <button className="btn btn-success t-white" onClick={() => onDeleteTemplate(templateToDelete.id)} disabled={inputVerify !== `confirmar`}>Eliminar</button>
                         </div>
                     </div>
                 </Modal>
