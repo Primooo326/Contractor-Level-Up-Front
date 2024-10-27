@@ -24,7 +24,7 @@ export default function FooterChat() {
                         <DynamicIcon icon='mingcute:paper-fill' className='text-lg text-white' />
                     </button>
                     <textarea value={templateSelected?.description} className='textareaChat font-light text-xs' placeholder='Write a message' onChange={(e) => setTemplateSelected(e.target.value)} />
-                    <button className='flex gap-4 items-center' >
+                    <button className='flex gap-4 items-center' onClick={handleSendMessage}>
                         <DynamicIcon icon='fa-solid:paper-plane' className='text-lg text-gray-500' />
                     </button>
                 </div>
