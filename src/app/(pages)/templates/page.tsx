@@ -11,20 +11,14 @@ import { useForm } from 'react-hook-form';
 import { FaXmark } from 'react-icons/fa6';
 
 export default function Page() {
-    const { register, handleSubmit, formState: { }, setValue, reset } = useForm();
+    const { register, handleSubmit, setValue, reset, getValues } = useForm();
 
     const [data, setData] = useState<ITemplate[]>([]);
-
     const [loading, setLoading] = useState<boolean>(true);
-
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
-
     const [templateToEdit, setTemplateToEdit] = useState<any | null>(null);
-
     const [templateToDelete, setTemplateToDelete] = useState<any | null>(null);
-
     const [inputVerify, setInputVerify] = useState<string>('');
-
     const [paginationOptions, setPaginationOptions] = useState({
         currentItems: data,
         page: 1,
@@ -34,6 +28,25 @@ export default function Page() {
         hasPreviousPage: false,
         hasNextPage: false
     });
+
+    const buttonsUser = [
+        "NombreCompleto",
+        "PrimerNombre",
+        "Apellido",
+        "Correo",
+    ];
+
+    const buttonsContact = [
+        "NombreCompleto",
+        "PrimerNombre",
+        "Apellido",
+        "Correo",
+        "Telefono",
+        "Pais",
+        "Estado",
+        "Ciudad",
+        "Direccion",
+    ];
 
     const fetchData = async (page: number = 1, limit: number = 5) => {
         setLoading(true);
@@ -60,7 +73,7 @@ export default function Page() {
         setButtonDisabled(true);
         try {
             if (templateToEdit.description) {
-                const response = await updateTemplate({description: data.description}, templateToEdit.id);
+                const response = await updateTemplate({ description: data.description }, templateToEdit.id);
                 if (response) {
                     fetchData();
                     setTemplateToEdit(null);
@@ -78,7 +91,7 @@ export default function Page() {
             console.error(error);
         }
         setButtonDisabled(false);
-    }
+    };
 
     const onDeleteTemplate = async (id: string) => {
         setInputVerify('')
@@ -97,13 +110,19 @@ export default function Page() {
             toast.error("Error al eliminar la plantilla");
         }
         setButtonDisabled(false);
-    }
+    };
 
     const handleCreate = () => {
         setTemplateToEdit({
             description: ""
         });
-    }
+    };
+
+    const handleButtonClick = (text: string, isClient: boolean) => {
+        const currentDescription = getValues('description') || ''; 
+        setValue('description', `${currentDescription}{${isClient ? 'client' : 'user'}${text}}`);
+    };
+    
 
     useEffect(() => {
         fetchData();
@@ -112,12 +131,12 @@ export default function Page() {
     useEffect(() => {
         if (templateToEdit) {
             for (const key in templateToEdit) {
-                setValue(key, templateToEdit[key])
+                setValue(key, templateToEdit[key]);
             }
         } else {
-            reset()
+            reset();
         }
-    }, [templateToEdit])
+    }, [templateToEdit]);
 
     const onChangePage = (page: number) => {
         setPaginationOptions({ ...paginationOptions, page });
@@ -139,7 +158,7 @@ export default function Page() {
                     <div className="table-header">
                         <h1>Plantillas</h1>
                         <div className='flex gap-5'>
-                            <button className='btn btn-success' onClick={() => handleCreate()}>Nueva Plantilla</button>
+                            <button className='btn btn-success' onClick={handleCreate}>Nueva Plantilla</button>
                         </div>
                     </div>
                     {loading ? (
@@ -187,32 +206,49 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-            <Modal id="Plantilla" className="rounded-xl " isOpen={templateToEdit} onClose={() => { setTemplateToEdit(null) }} >
+            <Modal id="Plantilla" className="rounded-xl w-[900px]" isOpen={templateToEdit} onClose={() => { setTemplateToEdit(null) }}>
                 <div className='modal-header flex justify-between items-center border-b w-full px-10' >
-
-                    <h1 className='text-2xl font-bold' >
-                        {
-                            templateToEdit?.description ? "Editar Plantilla" : "Nueva Plantilla"
-                        }
+                    <h1 className='text-2xl font-bold'>
+                        {templateToEdit?.description ? "Editar Plantilla" : "Nueva Plantilla"}
                     </h1>
-                    <button onClick={() => setTemplateToEdit(null)} >
+                    <button onClick={() => setTemplateToEdit(null)}>
                         <FaXmark />
                     </button>
                 </div>
-                <div className='p-10'>
-                    <form className='grid grid-cols-1 gap-5'>
-                        <div className="flex gap-5">
-                            <div>
-                                <label className='label'>Descripción</label>
-                                <textarea
-                                    className='textarea textarea-bordered'
-                                    defaultValue={templateToEdit ? templateToEdit.id : null}
-                                    {...register('description', { required: true, minLength: 3 })}
-                                    rows={4}
-                                />
-                            </div>
+                <div className='p-5'>
+                    <span className='block mb-2'>Datos del Usuario</span>
+                    <div className='flex flex-wrap gap-3 w-full mb-4'>
+                        {buttonsUser.map((button, index) => (
+                            <button
+                                key={index}
+                                className='t-white btn btn-info btn-sm'
+                                onClick={() => handleButtonClick(button, false)}
+                            >
+                                {button}
+                            </button>
+                        ))}
+                    </div>
+                    <span className='block mb-2'>Información de Contacto del Cliente</span>
+                    <div className='flex flex-wrap gap-3 w-full mb-4'>
+                        {buttonsContact.map((button, index) => (
+                            <button
+                                key={index}
+                                className='t-white btn btn-primary btn-sm'
+                                onClick={() => handleButtonClick(button, true)}
+                            >
+                                {button}
+                            </button>
+                        ))}
+                    </div>
+                    <form className='w-full space-y-4'>
+                        <div className="flex flex-col gap-1 w-full">
+                            <label className='label'>Descripción</label>
+                            <textarea
+                                className='textarea textarea-bordered w-full'
+                                {...register('description', { required: true, minLength: 3 })}
+                                rows={4}
+                            />
                         </div>
-
                         <div className='flex justify-end gap-3'>
                             <button className='btn btn-error t-white' onClick={() => setTemplateToEdit(null)}>Cancelar</button>
                             <button className='btn btn-success t-white' disabled={buttonDisabled} onClick={handleSubmit(onSubmit)}>Guardar</button>
@@ -220,39 +256,29 @@ export default function Page() {
                     </form>
                 </div>
             </Modal>
-            {
-                templateToDelete &&
+            {templateToDelete && (
                 <Modal id='modalDeleteTemplate' className="rounded-xl " isOpen={templateToDelete} onClose={() => setTemplateToDelete(null)} >
                     <div className='modal-header flex justify-between items-center border-b w-full px-10' >
-                        <div />
-                        <h1 className='text-2xl font-bold' >
-                            Eliminar Plantilla
-                        </h1>
-                        <button onClick={() => setTemplateToDelete(null)} >
+                        <h1 className='text-2xl font-bold'>Eliminar Plantilla</h1>
+                        <button onClick={() => setTemplateToDelete(null)}>
                             <FaXmark />
                         </button>
                     </div>
-                    <div>
-                        <div className='p-10 flex flex-col items-center gap-3' >
-                            <h1 className='text-xl' >
-                                ¿Está seguro de eliminar la plantilla?
-                            </h1>
-                            <div>
-                                <p className='font-bold mb-5' >
-                                    Para confirmar la eliminación de la plantilla, por favor digite "confirmar".
-                                </p>
-                                <div className="form-control">
-                                    <input type="text" placeholder="Digite confirmar" className="input input-bordered" value={inputVerify} onChange={(e) => setInputVerify(e.target.value)} onPaste={(e) => e.preventDefault()} />
-                                </div>
-                            </div>
-                            <div className='flex justify-center gap-5 mt-5' >
-                                <button className="btn btn-error t-white" onClick={() => setTemplateToDelete(null)} >Cancelar</button>
-                                <button className="btn btn-success t-white" onClick={() => onDeleteTemplate(templateToDelete.id)} disabled={inputVerify !== `confirmar` || buttonDisabled} >Eliminar</button>
-                            </div>
+                    <div className='p-10 flex flex-col items-center gap-3'>
+                        <h1 className='text-xl'>¿Está seguro de eliminar la plantilla?</h1>
+                        <p className='font-bold mb-5'>
+                            Para confirmar la eliminación de la plantilla, por favor digite "confirmar".
+                        </p>
+                        <div className="form-control">
+                            <input type="text" placeholder="Digite confirmar" className="input input-bordered" value={inputVerify} onChange={(e) => setInputVerify(e.target.value)} onPaste={(e) => e.preventDefault()} />
+                        </div>
+                        <div className='flex justify-center gap-5 mt-5'>
+                            <button className="btn btn-error t-white" onClick={() => setTemplateToDelete(null)}>Cancelar</button>
+                            <button className="btn btn-success t-white" onClick={() => onDeleteTemplate(templateToDelete.id)} disabled={inputVerify !== `confirmar` || buttonDisabled}>Eliminar</button>
                         </div>
                     </div>
                 </Modal>
-            }
+            )}
         </>
     );
 }

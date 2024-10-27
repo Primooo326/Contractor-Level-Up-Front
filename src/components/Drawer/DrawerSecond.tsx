@@ -4,13 +4,40 @@ import { useEffect, useState } from 'react'
 import { timeAgo } from '@/utils/tools'
 import { getConversations } from '@/api/goHighLevel/conversations.api';
 import { useChatStore } from '@/hooks/chat.hook';
+import { searchContact } from '@/api/goHighLevel/contacts.api';
 export default function DrawerSecond() {
+
+    const [contactsList, setContactsList] = useState<IContactSearched[]>([])
     const [conversations, setConversations] = useState<IConversation[]>([]);
-    const { setChat, setContact, setCurrentConversation } = useChatStore()
+    const { setCurrentConversation } = useChatStore()
+    const [searchWord, setSearchWord] = useState<string>('');
+
+    const handleSearch = (e: any) => {
+        setSearchWord(e.target.value)
+        if (e.target.value.length > 0) {
+            fetchSearchUser();
+        } else {
+            setContactsList([]);
+        }
+    }
+
+    const fetchSearchUser = async () => {
+        const data = await searchContact(searchWord);
+        console.log(data);
+        setContactsList(data?.contacts);
+    }
 
     const selectConversation = (conversation: IConversation) => {
         console.log(conversation)
         setCurrentConversation(conversation)
+    }
+
+    const findAndSelectConversation = (contactId: string) => {
+        const conversation = conversations.find((conversation) => conversation.contactId === contactId);
+        console.log(contactId);
+        if (conversation) {
+            selectConversation(conversation);
+        }
     }
 
     useEffect(() => {
@@ -40,11 +67,12 @@ export default function DrawerSecond() {
                 <div className='flex justify-between items-center' >
                     <label className="input input-bordered input-sm flex items-center gap-2 w-full">
                         <DynamicIcon icon='fa-solid:search' className=' text-gray-500' />
-                        <input type="text" className="grow" placeholder="Search user" />
+                        <input type="text" className="grow" placeholder="Search user" onChange={handleSearch} />
                     </label>
                 </div>
                 <div className='listConversations space-y-2 overflow-y-auto scrollbar-custom pb-10'>
-                    {conversations.map((conversation, index) => (
+
+                    {contactsList.length === 0 ? <> {conversations.map((conversation, index) => (
                         <div key={index} className='flex justify-between items-center w-full hover:bg-gray-100 p-4 rounded-lg' onClick={() => selectConversation(conversation)}>
                             <div className="flex items-center gap-2 w-full" >
 
@@ -66,7 +94,32 @@ export default function DrawerSecond() {
                                 }
                             </div>
                         </div>
-                    ))}
+                    ))}</> : <>
+                        {contactsList.map((contact, index) => (
+                            <div key={index} className='flex justify-between items-center w-full hover:bg-gray-100 p-4 rounded-lg' onClick={() => findAndSelectConversation(contact.id)}>
+                                <div className="flex items-center gap-2 w-full" >
+
+                                    <img src={`https://ui-avatars.com/api/?name=${contact.contactName}&background=random`} alt="contractor" className='rounded-full' style={{ width: '40px' }} />
+                                    <div>
+                                        <h1 className='font-bold text-sm'>{contact.contactName}</h1>
+                                        <p className='text-sm font-light line-clamp-1'>
+                                            {contact.email}
+                                        </p>
+                                    </div>
+
+                                </div>
+                                {/* <div className='h-full flex flex-col justify-between items-end gap-1'>
+                                        <span className='text-xs font-extralight text-nowrap' >{timeAgo(contact.lastMessageDate)}</span>
+                                        {
+                                            contact.lastMessageDirection === 'inbound' && <div className='flex items-center justify-center bg-indigo-700 text-white rounded-full size-4 text-xs font-extralight'>
+                                                {contact.unreadCount}
+                                            </div>
+                                        }
+                                    </div> */}
+                            </div>
+                        ))}</>}
+
+
                 </div>
             </div>
         </div>
