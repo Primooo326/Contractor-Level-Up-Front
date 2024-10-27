@@ -6,6 +6,7 @@ import { verifyJWT } from "@/utils/tools";
 import { DynamicIcon } from "@/components/DynamicIcon";
 import { toast } from "react-toastify";
 import { login } from "@/api/auth.api";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginCard({ setCargando }: { setCargando: (b: boolean) => void, setReset: (b: boolean) => void }) {
     const router = useRouter();
@@ -21,22 +22,33 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
         setPassword(event.target.value);
     };
 
+    const isEmailValid = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const isFormValid = isEmailValid(userForm) && password.length >= 5;
+
     const onClickLogin = async (e: any) => {
-        setCargando(true);
         e.preventDefault();
+        if (!isFormValid) {
+            toast.error("Por favor, ingresa un correo válido y una contraseña de al menos 5 caracteres.");
+            return;
+        }
+        
+        setCargando(true);
         try {
             const res = await login(userForm, password);
-            
             if (!res.token) {
                 toast.error('Error iniciando sesión...');
                 setCargando(false);
                 return;
             }
-            setCargando(true)
             Cookies.set("token", res.token);
             router.push("/home")
         } catch (error: any) {
             console.error(error);
+            toast.error("Error al iniciar sesión.");
         }
         setCargando(false);
     };
@@ -76,6 +88,7 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
                             type="text"
                             placeholder="Correo"
                             className="bg-gray-100 outline-none grow"
+                            value={userForm}
                         />
                     </div>
                     <div className="flex items-center bg-gray-100 rounded-lg py-2 px-3 mb-4">
@@ -85,6 +98,7 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
                             type={mostrarPassword ? "text" : "password"}
                             placeholder="Contraseña"
                             className="bg-gray-100 outline-none grow"
+                            value={password}
                         />
                     </div>
                     <div className="flex items-center justify-between mb-4">
@@ -95,7 +109,10 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
                     </div>
                     <button
                         onClick={onClickLogin}
-                        className="w-full bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:bg-indigo-500 transition-colors"
+                        disabled={!isFormValid}
+                        className={`w-full py-2 rounded-lg shadow-lg transition-colors ${
+                            !isFormValid ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500 text-white"
+                        }`}
                     >
                         Ingresar
                     </button>

@@ -29,7 +29,7 @@ const instance = (api: "contractor" | "base", headers?: any) => {
             if (Cookies.get('token')) {
                 token = String(Cookies.get('token'));
             }
-            if (api = 'contractor'){
+            if (api == 'contractor'){
                 config.headers.Authorization = tokenContractor ? `Bearer ${tokenContractor}` : null;
             }else if (token) {
                 config.headers.Authorization = token ? `Bearer ${token}` : null;
