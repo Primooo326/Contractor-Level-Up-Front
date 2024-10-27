@@ -27,6 +27,7 @@
     "sass": "^1.80.4",
     "sass-loader": "^16.0.2",
     "sass-migrator": "^2.2.1",
+    "sharp": "^0.33.5",
     "styled-components": "^6.1.13",
     "zustand": "^5.0.0"
   },
