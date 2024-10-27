@@ -1,6 +1,6 @@
 import type React from 'react'
 import { useEffect } from 'react'
-import "@/styles/components/shared/modal.scss"
+import "./styles.scss"
 export interface ModalProps {
     children: React.ReactNode;
     id: string;

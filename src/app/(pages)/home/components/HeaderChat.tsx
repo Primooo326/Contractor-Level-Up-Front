@@ -8,7 +8,7 @@ export default function HeaderChat() {
         <div className='header py-2 px-4' >
             <div className="flex items-center gap-2 w-full" >
 
-                <img src={`https://ui-avatars.com/api/?name=${contact!.fullNameLowerCase.replaceAll(" ", "+")}&background=random`} alt="contractor" className='rounded-full' style={{ width: '40px' }} />
+                <img src={`https://ui-avatars.com/api/?name=${contact!.fullNameLowerCase?.replaceAll(" ", "+")}&background=random`} alt="contractor" className='rounded-full' style={{ width: '40px' }} />
                 <div>
                     <h1 className='font-bold text-sm'>{contact!.fullNameLowerCase}</h1>
                     <p className='text-sm font-light'>
