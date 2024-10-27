@@ -1,13 +1,18 @@
+import { DynamicIcon } from '@/components/DynamicIcon'
 import { useChatStore } from '@/hooks/chat.hook'
 import { formatFecha } from '@/utils/tools'
 import React from 'react'
+import ModalTemplates from './ModalTemplates'
 
 export default function BodyChat() {
 
-    const { chat } = useChatStore()
-
+    const { chat, setOnModalTemplate } = useChatStore()
+    const handleOpenTemplate = () => {
+        setOnModalTemplate(true)
+    }
 
     return (
+
         <div className='bodyChat space-y-2 overflow-y-auto scrollbar-custom p-4' >
             {chat?.messages.map((message, index) => (
                 <div key={index}  >
@@ -27,7 +32,15 @@ export default function BodyChat() {
                                     </div>
                                 ))}
                             </div>}
-                            {message.body}
+                            {
+                                message.messageType === "TYPE_CALL" && <>
+                                    {message.meta?.call?.status === "no-answer" ?
+                                        <DynamicIcon icon="subway:call-1" className='text-2xl text-error' /> :
+                                        <DynamicIcon icon="subway:call-2" className='text-2xl text-success' />
+                                    }
+                                </>
+                            }
+                            {message.body !== "" && <>{message.body}</>}
                         </div>
                         <div className="chat-footer opacity-75">
                             <time className="text-xs opacity-75">{formatFecha(new Date(chat?.messages[index].dateAdded).getTime())}</time>
@@ -36,5 +49,6 @@ export default function BodyChat() {
                 </div>
             ))}
         </div>
+
     )
 }
