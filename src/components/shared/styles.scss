@@ -1,0 +1,31 @@
+.modale {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    z-index: 11;
+    position: relative;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+    min-width: 40vw;
+    max-width: 1000px;
+    max-height: 90vh;
+    padding: 20px;
+}
+
+.modal-content .modal-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+}

@@ -52,7 +52,7 @@ export default function DrawerFirst() {
 
             <div className='profile'>
                 <img
-                    src={`https://ui-avatars.com/api/?name=${tokenDecrypted.userName.replaceAll(" ", "+")}&background=random`}
+                    src={`https://ui-avatars.com/api/?name=${tokenDecrypted?.userName?.replaceAll(" ", "+")}&background=random`}
                     alt="contractor"
                     className="rounded-full"
                     style={{ width: '40px' }}
