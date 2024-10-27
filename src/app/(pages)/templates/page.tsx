@@ -35,6 +35,16 @@ export default function Page() {
         hasNextPage: false
     });
 
+    const botones = [
+
+        "Nombre",
+        "Correo",
+        "Telefono",
+        "Direccion",
+        "Nombre empresa",
+
+    ]
+
     const fetchData = async (page: number = 1, limit: number = 5) => {
         setLoading(true);
         try {
@@ -60,7 +70,7 @@ export default function Page() {
         setButtonDisabled(true);
         try {
             if (templateToEdit.description) {
-                const response = await updateTemplate({description: data.description}, templateToEdit.id);
+                const response = await updateTemplate({ description: data.description }, templateToEdit.id);
                 if (response) {
                     fetchData();
                     setTemplateToEdit(null);
@@ -187,7 +197,7 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-            <Modal id="Plantilla" className="rounded-xl " isOpen={templateToEdit} onClose={() => { setTemplateToEdit(null) }} >
+            <Modal id="Plantilla" className="rounded-xl w-[700px]" isOpen={templateToEdit} onClose={() => { setTemplateToEdit(null) }} >
                 <div className='modal-header flex justify-between items-center border-b w-full px-10' >
 
                     <h1 className='text-2xl font-bold' >
@@ -200,17 +210,22 @@ export default function Page() {
                     </button>
                 </div>
                 <div className='p-10'>
-                    <form className='grid grid-cols-1 gap-5'>
-                        <div className="flex gap-5">
-                            <div>
-                                <label className='label'>Descripción</label>
-                                <textarea
-                                    className='textarea textarea-bordered'
-                                    defaultValue={templateToEdit ? templateToEdit.id : null}
-                                    {...register('description', { required: true, minLength: 3 })}
-                                    rows={4}
-                                />
-                            </div>
+                    <div className='flex flex-wrap gap-3 w-full mb-4'>
+
+                        {botones.map((boton, index) => (
+                            <button key={index} className='btn btn-primary btn-sm'>{boton}</button>
+                        ))}
+
+                    </div>
+                    <form className='w-full space-y-4'>
+                        <div className="flex flex-col gap-1 w-full">
+                            <label className='label'>Descripción</label>
+                            <textarea
+                                className='textarea textarea-bordered w-full'
+                                defaultValue={templateToEdit ? templateToEdit.id : null}
+                                {...register('description', { required: true, minLength: 3 })}
+                                rows={4}
+                            />
                         </div>
 
                         <div className='flex justify-end gap-3'>

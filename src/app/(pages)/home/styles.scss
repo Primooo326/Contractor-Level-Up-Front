@@ -17,23 +17,12 @@
 
 
 
-textarea {
-    /* Elimina el borde del textarea */
+.textareaChat {
     border: none;
-
-    /* Elimina cualquier sombra interna que pueda aparecer */
     box-shadow: none;
-
-    /* Quita el contorno que aparece al enfocar el textarea */
     outline: none;
-
-    /* Evita que el usuario pueda redimensionar el textarea */
     resize: none;
-
-    /* Fondo transparente */
     background-color: transparent;
-
-
     font-size: 16px;
     box-sizing: border-box;
     width: 100%;
