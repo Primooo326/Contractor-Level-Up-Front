@@ -5,7 +5,7 @@ export interface IUserRequestBody {
 }
 
 export interface IUser {
-    id: string;
+    id: number;
     full_name: string;
     first_name: string;
     last_name: string;
