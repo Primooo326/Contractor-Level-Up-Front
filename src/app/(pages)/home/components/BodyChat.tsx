@@ -7,7 +7,7 @@ import ModalTemplates from './ModalTemplates'
 export default function BodyChat() {
 
     const { chat, setOnModalTemplate } = useChatStore()
-    const chatEndRef = useRef<HTMLDivElement>(null)  // Se especifica el tipo de HTMLDivElement
+    const chatEndRef = useRef<HTMLDivElement>(null)  
 
     const handleOpenTemplate = () => {
         setOnModalTemplate(true)
