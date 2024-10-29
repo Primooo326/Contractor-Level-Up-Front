@@ -19,7 +19,6 @@ export default function DrawerFirst() {
 
     const handleLogout = () => {
         if (isMounted) {
-            console.log('Cerrando sesión...');
             Cookies.remove("token")
             router.push("/")
         }
@@ -58,7 +57,14 @@ export default function DrawerFirst() {
                     style={{ width: '40px' }}
                 />
                 <div>
-                    <h1 className='font-bold'>{tokenDecrypted.userName}</h1>
+                    <div className="flex justify-between items-center">
+                        <h1 className='font-bold'>{tokenDecrypted.userName}</h1>
+                        <DynamicIcon
+                            icon='uil:setting'
+                            className="text-lg text-gray-500 cursor-pointer"
+                            onClick={() => router.push("/users/profile")}
+                        />
+                    </div>
                     <p className='text-sm font-light'>{tokenDecrypted.userEmail}</p>
                 </div>
             </div>
@@ -68,7 +74,9 @@ export default function DrawerFirst() {
                     <Link href={route} key={idx}>
                         <button className={`w-full flex items-center gap-4 p-3 rounded-lg ${pathname === route ? 'bg-gray-200' : 'bg-gray-100 hover:bg-gray-200'} transition`}>
                             <div className="flex justify-center items-center bg-white size-10 rounded-full">
-                                <DynamicIcon icon={icon} className="text-lg text-gray-500" />
+                                <button onClick={() => router.push("/users1")}>
+                                    <DynamicIcon icon={icon} className="text-lg text-gray-500" />
+                                </button>
                             </div>
                             <h3 className='font-semibold'>{label}</h3>
                         </button>
