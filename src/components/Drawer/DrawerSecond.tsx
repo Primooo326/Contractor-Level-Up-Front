@@ -2,7 +2,7 @@
 import { DynamicIcon } from '@/components/DynamicIcon'
 import { useEffect, useState } from 'react'
 import { timeAgo } from '@/utils/tools'
-import { getConversations } from '@/api/goHighLevel/conversations.api';
+import { getConversationByContactId, getConversations } from '@/api/goHighLevel/conversations.api';
 import { useChatStore } from '@/hooks/chat.hook';
 import { searchContact } from '@/api/goHighLevel/contacts.api';
 export default function DrawerSecond() {
@@ -32,11 +32,14 @@ export default function DrawerSecond() {
         setCurrentConversation(conversation)
     }
 
-    const findAndSelectConversation = (contactId: string) => {
+    const findAndSelectConversation = async (contactId: string) => {
         const conversation = conversations.find((conversation) => conversation.contactId === contactId);
         console.log(contactId);
         if (conversation) {
             selectConversation(conversation);
+        } else {
+            const convResponse = await getConversationByContactId(contactId);
+            selectConversation(convResponse.conversations[0]);
         }
     }
 
