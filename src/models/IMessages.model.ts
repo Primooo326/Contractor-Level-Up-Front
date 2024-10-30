@@ -72,3 +72,16 @@ type EMessageType =
     | "TYPE_INSTAGRAM_COMMENT"
     | "TYPE_CUSTOM_CALL"
     | "TYPE_ACTIVITY"
+
+
+
+interface ISendMessageResponse {
+    type: "SMS" | "WhatsApp"
+    contactId: string;
+    appointmentId: string;
+    message: string;
+    subject: string;
+    scheduledTimestamp: number;
+    fromNumber: string;
+    toNumber: string;
+}
