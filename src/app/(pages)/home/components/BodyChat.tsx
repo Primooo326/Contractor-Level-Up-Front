@@ -1,15 +1,29 @@
 import { DynamicIcon } from '@/components/DynamicIcon'
 import { useChatStore } from '@/hooks/chat.hook'
 import { formatFecha } from '@/utils/tools'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import ModalTemplates from './ModalTemplates'
 
 export default function BodyChat() {
 
-    const { chat } = useChatStore()
-    return (
+    const { chat, setOnModalTemplate } = useChatStore()
+    const chatEndRef = useRef<HTMLDivElement>(null)  
 
-        <div className='bodyChat space-y-2 overflow-y-auto scrollbar-custom p-4' >
+    const handleOpenTemplate = () => {
+        setOnModalTemplate(true)
+    }
+
+    useEffect(() => {
+        if (chatEndRef.current) {
+            chatEndRef.current.scrollTop = chatEndRef.current.scrollHeight
+        }
+    }, [chat?.messages])
+
+    return (
+        <div
+            ref={chatEndRef}
+            className='bodyChat space-y-2 overflow-y-auto scrollbar-custom p-4'
+        >
             {chat?.messages.map((message, index) => (
                 <div key={index}  >
                     <div className={`chat ${message.direction === 'inbound' ? 'chat-start' : 'chat-end'}`}>
@@ -45,6 +59,5 @@ export default function BodyChat() {
                 </div>
             ))}
         </div>
-
     )
 }
