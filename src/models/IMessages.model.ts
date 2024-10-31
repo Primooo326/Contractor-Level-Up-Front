@@ -36,6 +36,10 @@ interface IMessagesResponse {
     messages: IMessages;
     traceId: string;
 }
+interface IMessageResponse {
+    message: IMessage;
+    traceId: string;
+}
 type EMessageType =
     | "TYPE_CALL"
     | "TYPE_SMS"
@@ -75,7 +79,7 @@ type EMessageType =
 
 
 
-interface ISendMessageResponse {
+interface ISendMessageBody {
     type: "SMS" | "WhatsApp"
     contactId: string;
     appointmentId: string;
@@ -84,4 +88,10 @@ interface ISendMessageResponse {
     scheduledTimestamp: number;
     fromNumber: string;
     toNumber: string;
+}
+
+interface ISendMessageResponse {
+    conversationId: string;
+    messageId: string;
+    traceId: string;
 }

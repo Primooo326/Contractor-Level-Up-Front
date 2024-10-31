@@ -5,6 +5,10 @@ export async function getMessagesByConversationId(conversationId: string): Promi
     return fetchApiContractor.get(`conversations/${conversationId}/messages`);
 }
 
-export async function sendMessage(message: ISendMessageResponse): Promise<ISendMessageResponse> {
+export async function sendMessage(message: ISendMessageBody): Promise<ISendMessageResponse> {
     return fetchApiContractor.post(`conversations/messages`, message);
+}
+
+export async function getMessagesById(id: string): Promise<IMessageResponse> {
+    return fetchApiContractor.get(`conversations/messages/${id}`);
 }

@@ -3,7 +3,7 @@ import { useChatStore } from '@/hooks/chat.hook';
 import React, { useEffect, useRef, useState } from 'react';
 import ModalTemplates from './ModalTemplates';
 import { useForm } from 'react-hook-form';
-import { sendMessage } from '@/api/goHighLevel/messages.api';
+import { getMessagesById, sendMessage } from '@/api/goHighLevel/messages.api';
 
 export default function FooterChat() {
     const { setOnModalTemplate, templateSelected, setTemplateSelected } = useChatStore();
@@ -16,25 +16,38 @@ export default function FooterChat() {
         setOnModalTemplate(true);
     };
 
-    const { currentConversation } = useChatStore();
+    const { currentConversation, chat, setChat } = useChatStore();
 
     const handleSendMessage = async (data: any) => {
         if (!load) {
             setLoad(true);
             console.log(data);
-            reset();
-            const body: ISendMessageResponse = {
+            const body: ISendMessageBody = {
                 type: 'SMS',
                 contactId: currentConversation?.contactId!,
                 appointmentId: 'APPOINTMENT_ID',
                 message: data.message,
                 subject: 'Sample Subject',
-                scheduledTimestamp: new Date().getTime(),
+                scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
                 fromNumber: '+18448997259',
                 toNumber: currentConversation?.phone!
             }
-            const response = await sendMessage(body);
-            console.log(response);
+            await sendMessage(body).then(async (resp) => {
+                console.log(resp);
+                const message = await getMessagesById(resp.messageId);
+                console.log(message);
+
+                const newChat = chat!;
+                newChat.messages.push(message.message);
+                setChat(newChat);
+
+            }).catch((err) => {
+                console.log(err);
+            }).finally(() => {
+                reset();
+                setLoad(false);
+            });
+            reset();
         }
     };
 
@@ -48,7 +61,7 @@ export default function FooterChat() {
     };
 
     useEffect(() => {
-        if (templateSelected && cursorPosition !== null) {
+        if (templateSelected) {
             const { start, end } = cursorPosition;
             const currentText = message || '';
 

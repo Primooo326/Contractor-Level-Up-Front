@@ -6,7 +6,7 @@ export default function HeaderChat() {
 
     return (
         <div className='header py-2 px-4' >
-            <div className="flex items-center gap-2 w-full" >
+            <div className="flex items-center gap-2 w-full h-full" >
 
                 <img src={`https://ui-avatars.com/api/?name=${contact!.fullNameLowerCase?.replaceAll(" ", "+")}&background=random`} alt="contractor" className='rounded-full' style={{ width: '40px' }} />
                 <div>

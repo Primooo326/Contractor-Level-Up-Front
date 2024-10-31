@@ -6,11 +6,7 @@ import ModalTemplates from './ModalTemplates'
 
 export default function BodyChat() {
 
-    const { chat, setOnModalTemplate } = useChatStore()
-    const handleOpenTemplate = () => {
-        setOnModalTemplate(true)
-    }
-
+    const { chat } = useChatStore()
     return (
 
         <div className='bodyChat space-y-2 overflow-y-auto scrollbar-custom p-4' >

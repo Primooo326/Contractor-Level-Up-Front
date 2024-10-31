@@ -57,12 +57,12 @@ export default function DrawerSecond() {
             <div className="header flex justify-between items-center p-4 w-full">
 
                 <div className='flex items-center gap-1'>
-                    <h1 className='font-bold text-xl'>Open</h1>
-                    <DynamicIcon icon='octicon:chevron-down-12' className='text-gray-500' />
-                </div>
-                <div className='flex items-center gap-2'>
-                    <DynamicIcon icon='gg:phone' className='text-lg text-indigo-500' />
-                    <DynamicIcon icon='fluent:chat-12-filled' className='text-lg text-indigo-500' />
+                    <select className="select w-full max-w-xs">
+                        <option className='font-bold' >Individual <DynamicIcon icon='octicon:chevron-down-12' className='text-gray-500' /></option>
+                        <option className='font-bold' >Grupal <DynamicIcon icon='octicon:chevron-down-12' className='text-gray-500' /></option>
+
+                    </select>
+                    {/* <h1 className='font-bold text-xl'>Individual</h1> */}
 
                 </div>
             </div>
