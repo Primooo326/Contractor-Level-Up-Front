@@ -15,3 +15,7 @@ export async function getConversations(startAfterDate?: number): Promise<IConver
 
     return fetchApiContractor.get(`conversations/search?${params.toString()}`);
 }
+
+export async function getConversationByContactId(contactId: string): Promise<IConversationsReturn> {
+    return fetchApiContractor.get(`conversations/search?locationId=${CONTRACTOR_LOCATION_ID}&contactId=${contactId}`);
+}
