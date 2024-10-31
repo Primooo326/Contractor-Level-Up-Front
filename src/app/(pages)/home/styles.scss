@@ -5,14 +5,18 @@
     display: grid;
     min-height: 100dvh;
     grid-template-rows: auto 1fr auto;
+    overflow: hidden;
 }
 
 .footerChat {
-    min-height: $section2;
+    max-height: $section2;
+    display: flex;
+    align-items: end;
+    width: 100%;
 }
 
 .bodyChat {
-    height: calc(100dvh - $section2);
+    max-height: calc(100dvh - $section2);
 }
 
 
@@ -22,12 +26,13 @@
     box-shadow: none;
     outline: none;
     resize: none;
+    /* Evita que el usuario pueda cambiar el tamaño manualmente */
     background-color: transparent;
     font-size: 16px;
     box-sizing: border-box;
     width: 100%;
-    overflow: hidden;
-    height: fit-content;
+    overflow-y: auto;
+    /* Muestra el scroll si la altura máxima es alcanzada */
 }
 
 /* Opcional: Estilo al enfocar el textarea */
