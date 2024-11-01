@@ -75,6 +75,13 @@ export default function FooterChat() {
         }
     }, [templateSelected]);
 
+    useEffect(() => {
+        textareaRef.current?.focus();
+
+        handleCursorChange();
+
+    }, []);
+
     const handleKeyDown = (e: any) => {
         if (e.key === 'Enter' && !e.shiftKey) { // Envía el mensaje solo si Enter es presionado sin Shift
             e.preventDefault();
