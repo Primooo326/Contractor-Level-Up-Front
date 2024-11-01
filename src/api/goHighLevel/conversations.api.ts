@@ -6,7 +6,7 @@ export async function getConversations(startAfterDate?: number): Promise<IConver
         locationId: CONTRACTOR_LOCATION_ID,
         sort: 'desc',
         sortBy: 'last_message_date',
-        limit: '100',
+        limit: '1',
     });
 
     if (startAfterDate) {

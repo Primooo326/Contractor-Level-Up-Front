@@ -10,30 +10,16 @@ import { getMessagesByConversationId } from '@/api/goHighLevel/messages.api'
 import "./styles.scss"
 export default function page() {
 
-    const { contact, currentConversation, setChat, setContact } = useChatStore()
+    const { contactsSelected } = useChatStore()
 
-    const fetchData = async () => {
-        const responseContact = await getOneContact(currentConversation?.contactId!)
-        console.log(responseContact);
-        setContact(responseContact?.contact)
-
-        const responseMsg = await getMessagesByConversationId(currentConversation?.id!)
-        console.log(responseMsg);
-        const ms = responseMsg?.messages
-
-        ms.messages = ms.messages.sort((a, b) => new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime())
-        setChat(ms)
-    }
 
     useEffect(() => {
-        if (currentConversation) {
-            fetchData()
-        }
-    }, [currentConversation])
+        console.log(contactsSelected);
+    }, [contactsSelected])
 
     return (
         <>
-            {contact ?
+            {contactsSelected.length > 0 ?
                 <div className='pageChat'>
                     <HeaderChat />
                     <BodyChat />
