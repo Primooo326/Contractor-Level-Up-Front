@@ -2,15 +2,17 @@
 import { DynamicIcon } from "@/components/DynamicIcon";
 import { useEffect, useState } from "react";
 import { useChatStore } from "@/hooks/chat.hook";
-import { searchContact } from "@/api/goHighLevel/contacts.api";
+import Cookies from "js-cookie";
+import { getConversations } from "@/api/goHighLevel/conversations.api";
+
 export default function DrawerSecond() {
 
 
-  const [contactsList, setContactsList] = useState<IContactSearched[]>([]);
+  const [contactsList, setContactsList] = useState<IConversation[]>([]);
   const { setContactsSelected, contactsSelected } = useChatStore();
   const [queryes, setQueryes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [assignedTo, setAssignedTo] = useState<string>("");
   const handleEnterKey = (e: any) => {
 
     if (e.key === "Enter") {
@@ -24,16 +26,20 @@ export default function DrawerSecond() {
     }
 
   };
-
+  const decodeToken = (token: any) => {
+    const payload = token.split('.')[1];
+    return JSON.parse(atob(payload));
+  };
   const fetchSearchUser = async () => {
     try {
       setLoading(true);
+
       for (let i = 0; i < queryes.length; i++) {
         console.log(queryes[i]);
-        searchContact(queryes[i]).then((data) => {
+        getConversations(assignedTo, queryes[i]).then((data) => {
           setContactsList((prevContacts) => {
-            console.log([...prevContacts, ...data?.contacts]);
-            return [...prevContacts, ...data?.contacts];
+            console.log([...prevContacts, ...data?.conversations]);
+            return [...prevContacts, ...data?.conversations];
           });
         });
       }
@@ -45,7 +51,7 @@ export default function DrawerSecond() {
 
   };
 
-  const selectContact = (contact: IContactSearched) => {
+  const selectContact = (contact: IConversation) => {
 
     console.log(contact);
     const contactFound = contactsSelected.findIndex((contactSelected) => contactSelected.id === contact.id);
@@ -61,8 +67,21 @@ export default function DrawerSecond() {
   }
 
   useEffect(() => {
+    const token = Cookies.get("token") || null;
+    if (token) {
+      const decoded = decodeToken(token);
+      console.log(decoded);
+      if (!decoded.isAdmin) {
+
+        setAssignedTo(decoded.idUser_High_Level);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     fetchSearchUser();
   }, [queryes]);
+
 
   return (
     <div className="drawer2">
@@ -78,6 +97,9 @@ export default function DrawerSecond() {
             />
           </label>
         </div>
+        <h1 className="text-center text-sm text-gray-500 mt-4">
+          {loading ? "Buscando..." : `${contactsList.length} contactos encontrados`}
+        </h1>
         <div className="h-full space-y-2 overflow-y-auto scrollbar-custom pb-10">
           {contactsList.map((contact, index) => (
             <div

@@ -1,35 +1,29 @@
 import { create } from 'zustand';
 
 interface ChatState {
-    contact: IContact | null;
-    setContact: (contact: IContact | null) => void;
-    chat: IMessages | null;
-    setChat: (chat: IMessages | null) => void;
-    currentConversation: IConversation | null;
-    setCurrentConversation: (currentConversation: IConversation | null) => void;
+
     onModalTemplate: boolean;
     setOnModalTemplate: (isOpen: boolean) => void;
+    messageType: { value: EMessageType, label: string }
+    setMessageType: (messageType: { value: EMessageType, label: string }) => void;
     templateSelected: any | null;
     setTemplateSelected: (templateSelected: any) => void;
-    contactsSelected: IContactSearched[];
-    setContactsSelected: (contactsSelected: IContactSearched[]) => void;
+    contactsSelected: IConversation[];
+    setContactsSelected: (contactsSelected: IConversation[]) => void;
     messagesSent: any[];
-    setMessagesSent: (messagesSent: any[] | ((prevMessages: any[]) => any[])) => void; // Modificado
+    setMessagesSent: (messagesSent: any[] | ((prevMessages: any[]) => any[])) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
-    contact: null,
-    setContact: (contact: IContact | null) => set({ contact }),
-    chat: null,
-    setChat: (chat: IMessages | null) => set({ chat }),
-    currentConversation: null,
-    setCurrentConversation: (currentConversation: IConversation | null) => set({ currentConversation }),
+
     onModalTemplate: false,
     setOnModalTemplate: (isOpen: boolean) => set({ onModalTemplate: isOpen }),
+    messageType: { value: "TYPE_SMS", label: "SMS" },
+    setMessageType: (messageType: { value: EMessageType, label: string }) => set({ messageType }),
     templateSelected: null,
     setTemplateSelected: (templateSelected: any | null) => set({ templateSelected }),
     contactsSelected: [],
-    setContactsSelected: (contactsSelected: IContactSearched[]) => set({ contactsSelected }),
+    setContactsSelected: (contactsSelected: IConversation[]) => set({ contactsSelected }),
     messagesSent: [],
     setMessagesSent: (messagesSent) => set((state) => ({
         messagesSent: typeof messagesSent === 'function' ? messagesSent(state.messagesSent) : messagesSent

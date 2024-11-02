@@ -3,7 +3,7 @@ import { useChatStore } from '@/hooks/chat.hook';
 import React, { useEffect, useRef, useState } from 'react';
 import ModalTemplates from './ModalTemplates';
 import { useForm } from 'react-hook-form';
-import { createLog, getMessagesById, sendMessage } from '@/api/goHighLevel/messages.api';
+import { createLog, getMessagesById, sendMessage, validateCountMessages } from '@/api/goHighLevel/messages.api';
 import { toast } from 'react-toastify';
 
 const ToasDisplayLoader = () => {
@@ -22,7 +22,7 @@ const ToasDisplayLoader = () => {
 
 export default function FooterChat() {
 
-    const { setOnModalTemplate, templateSelected, setTemplateSelected, contactsSelected, messagesSent, setMessagesSent } = useChatStore();
+    const { setOnModalTemplate, templateSelected, setTemplateSelected, contactsSelected, messageType, setMessagesSent } = useChatStore();
 
     const { handleSubmit, register, setValue, watch, reset } = useForm();
     const message = watch('message');
@@ -35,140 +35,59 @@ export default function FooterChat() {
     };
 
     const handleSendMessage = async (data: any) => {
-        if (!load) {
-            setLoad(true);
-            toast.loading(<ToasDisplayLoader />);
+        await validateCountMessages(contactsSelected.length).then(async (resp) => {
+            if (resp.canSend) {
+                console.log(resp);
+                if (!load) {
+                    setLoad(true);
+                    toast.loading(<ToasDisplayLoader />);
 
-            const sentMessages = []; // Array temporal para acumular los mensajes enviados
+                    const sentMessages = []; // Array temporal para acumular los mensajes enviados
 
-            for (const contact of contactsSelected) {
-                const body: ISendMessageBody = {
-                    type: 'SMS',
-                    contactId: contact.id,
-                    appointmentId: 'APPOINTMENT_ID',
-                    message: data.message,
-                    subject: 'Sample Subject',
-                    scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
-                    fromNumber: '+18448997259',
-                    toNumber: contact.phone!
-                };
+                    for (const contact of contactsSelected) {
+                        const body: ISendMessageBody = {
+                            type: messageType.value === "TYPE_WHATSAPP" ? 'WhatsApp' : 'SMS',
+                            contactId: contact.contactId,
+                            appointmentId: 'APPOINTMENT_ID',
+                            message: data.message,
+                            subject: 'Sample Subject',
+                            scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
+                            fromNumber: '+18448997259',
+                            toNumber: contact.phone!
+                        };
 
-                try {
-                    const resp = await sendMessage(body);
-                    await createLog({ 
-                        toNumber: body.toNumber,
-                        messageContent: body.message
-                     });
-                    
-                    sentMessages.push(resp.messageId); // Agrega cada messageId al array temporal
-                    setMessagesSent((prev) => [...prev, resp.messageId]); // Actualiza el estado con todos los mensajes enviados
-                } catch (err) {
-                    console.log(err);
+                        try {
+                            const resp = await sendMessage(body);
+                            await createLog({
+                                toNumber: body.toNumber,
+                                messageContent: body.message
+                            });
+
+                            sentMessages.push(resp.messageId); // Agrega cada messageId al array temporal
+                            setMessagesSent((prev) => [...prev, resp.messageId]); // Actualiza el estado con todos los mensajes enviados
+                        } catch (err) {
+                            console.log(err);
+                        }
+                    }
+
+                    setMessagesSent(sentMessages); // Actualiza el estado con todos los mensajes enviados
+
+                    toast.dismiss();
+                    toast.success(`(${sentMessages.length}/${contactsSelected.length}) mensajes enviados exitosamente`, {
+                        onClose: () => {
+                            setMessagesSent([]);
+                        }
+                    });
+
+
+                    setLoad(false);
+                    reset();
                 }
+            } else {
+                toast.error(resp.message);
             }
-
-            setMessagesSent(sentMessages); // Actualiza el estado con todos los mensajes enviados
-
-            toast.dismiss();
-            toast.success(`(${sentMessages.length}/${contactsSelected.length}) mensajes enviados exitosamente`, {
-                onClose: () => {
-                    setMessagesSent([]);
-                }
-            });
-
-
-            setLoad(false);
-            reset();
-        }
+        })
     };
-
-    // const handleSendMessage = async (data: any) => {
-    //     if (!load) {
-    //         setLoad(true);
-    //         toast.loading(<ToasDisplayLoader />);
-    //         console.log(data);
-
-    //         for (const contact of contactsSelected) {
-    //             const body: ISendMessageBody = {
-    //                 type: 'SMS',
-    //                 contactId: contact.id,
-    //                 appointmentId: 'APPOINTMENT_ID',
-    //                 message: data.message,
-    //                 subject: 'Sample Subject',
-    //                 scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
-    //                 fromNumber: '+18448997259',
-    //                 toNumber: contact.phone!
-    //             };
-
-    //             try {
-    //                 const resp = await sendMessage(body);
-    //                 console.log(resp);
-    //                 // Usamos set para actualizar messagesSent sin sobrescribir el estado previo
-    //                 setMessagesSent((prev) => [...prev, resp.messageId]);
-
-    //             } catch (err) {
-    //                 console.log(err);
-    //             } finally {
-    //                 reset();
-    //             }
-    //         }
-
-    //         setTimeout(() => {
-    //             toast.dismiss();
-    //             console.log(messagesSent);
-    //             toast.success(`(${messagesSent.length}/${contactsSelected.length}) mensajes enviados exitosamente`, {
-    //                 onClose: () => {
-    //                     // setMessagesSent([]);
-    //                 }
-    //             });
-    //         }, 2000);
-
-    //         setLoad(false);
-    //         reset();
-    //     }
-    // };
-
-
-    // const handleSendMessage = async (data: any) => {
-    //     if (!load) {
-    //         setLoad(true);
-    //         toast.loading(<ToasDisplayLoader />);
-    //         console.log(data);
-    //         for (let i = 0; i < contactsSelected.length; i++) {
-    //             const body: ISendMessageBody = {
-    //                 type: 'SMS',
-    //                 contactId: contactsSelected[i].id,
-    //                 appointmentId: 'APPOINTMENT_ID',
-    //                 message: data.message,
-    //                 subject: 'Sample Subject',
-    //                 scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
-    //                 fromNumber: '+18448997259',
-    //                 toNumber: contactsSelected[i].phone!
-    //             }
-    //             await sendMessage(body).then((resp) => {
-    //                 console.log(resp);
-    //                 setMessagesSent([...messagesSent, resp.messageId]);
-    //             }).catch((err) => {
-    //                 console.log(err);
-    //             }).finally(() => {
-    //                 reset();
-    //                 setLoad(false);
-    //             });
-    //         }
-    //         setTimeout(() => {
-    //             toast.dismiss();
-    //             console.log(messagesSent);
-    //             toast.success(`(${messagesSent.length}/${contactsSelected.length}) mensajes enviados exitosamente`, {
-    //                 onClose: () => {
-    //                     // setMessagesSent([]);
-    //                 }
-    //             })
-    //         }, 2000);
-    //         setLoad(false);
-    //         reset();
-    //     }
-    // };
-
     const handleCursorChange = () => {
         if (textareaRef.current) {
             setCursorPosition({
@@ -200,9 +119,15 @@ export default function FooterChat() {
 
     }, []);
 
+    useEffect(() => {
+        textareaRef.current?.focus();
+        setValue('message', '')
+    }, [messageType]);
+
     const handleKeyDown = (e: any) => {
         if (e.key === 'Enter' && !e.shiftKey) { // Envía el mensaje solo si Enter es presionado sin Shift
             e.preventDefault();
+
             handleSubmit(handleSendMessage)();
         }
     };
@@ -216,7 +141,7 @@ export default function FooterChat() {
                     </button>
                     <textarea
                         className='textareaChat'
-                        placeholder='Write a message'
+                        placeholder={messageType.value === "TYPE_WHATSAPP" ? 'Escoje una plantilla de WhatsApp' : 'Escribe un mensaje'}
 
                         {...register('message', { required: true })}
                         ref={(e) => {
@@ -228,6 +153,7 @@ export default function FooterChat() {
                         onKeyUp={handleCursorChange}
                         onKeyDown={handleKeyDown} // Envía el mensaje con Enter
                         style={{ maxHeight: '150px', overflowY: 'auto' }}
+                        readOnly={messageType.value === "TYPE_WHATSAPP"}
                     />
                     <button type="submit" className='flex gap-4 items-center' disabled={load}>
                         <DynamicIcon icon='fa-solid:paper-plane' className='text-lg text-gray-500' />

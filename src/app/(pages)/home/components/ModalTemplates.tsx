@@ -9,7 +9,7 @@ import { stylesSelect } from '@/utils/constants'
 
 export default function ModalTemplates() {
 
-    const { setOnModalTemplate, onModalTemplate, setTemplateSelected, templateSelected } = useChatStore()
+    const { setOnModalTemplate, onModalTemplate, setTemplateSelected, messageType } = useChatStore()
     const [template, setTemplate] = useState<any | null>(null);
     const [tab, setTab] = useState<"sms" | "wha">("sms");
     const [options, setOptions] = useState<{ value: any, label: string }[]>([])
@@ -47,16 +47,16 @@ export default function ModalTemplates() {
             <div className='modal-header flex justify-between items-center border-b w-full px-10' >
                 <div />
                 <h1 className='text-2xl font-bold' >
-                    Templates
+                    Templates ({messageType.label})
                 </h1>
                 <button onClick={() => setOnModalTemplate(false)} >
                     <FaXmark />
                 </button>
             </div>
-            <div role="tablist" className="tabs tabs-bordered">
+            {/* <div role="tablist" className="tabs tabs-bordered">
                 <a role="tab" onClick={() => setTab("sms")} className={`tab ${tab === "sms" ? "tab-active" : ""}`}>SMS</a>
                 <a role="tab" onClick={() => setTab("wha")} className={`tab ${tab === "wha" ? "tab-active" : ""}`}>WhatsApp</a>
-            </div>
+            </div> */}
             <div className="p-8 space-y-8" >
 
                 <div className=' w-full flex justify-center items-center' >

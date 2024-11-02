@@ -100,3 +100,20 @@ interface ISendMessageResponse {
     messageId: string;
     traceId: string;
 }
+
+interface IValidateCountMessagesResponse {
+    messagesSend: number;
+    messagesAllowed: number;
+    messagesMinute: number;
+    canSendMessages: number;
+    canSend: boolean;
+    message: string;
+}
+// {
+//     "messagesSend": 2,
+//     "messagesAllowed": 100,
+//     "messagesMinute": 1,
+//     "canSendMessages": 99,
+//     "canSend": true,
+//     "message": "Puede enviar más mensajes."
+// }

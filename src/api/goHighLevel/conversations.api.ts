@@ -1,12 +1,14 @@
 import { CONTRACTOR_LOCATION_ID } from "@/config";
 import { fetchApiContractor } from "../instances";
 
-export async function getConversations(startAfterDate?: number): Promise<IConversationsReturn> {
+export async function getConversations(assignedTo: string | null, query: string, startAfterDate?: number): Promise<IConversationsReturn> {
     const params = new URLSearchParams({
         locationId: CONTRACTOR_LOCATION_ID,
         sort: 'desc',
         sortBy: 'last_message_date',
-        limit: '1',
+        limit: '100',
+        assignedTo: assignedTo || '',
+        query: query
     });
 
     if (startAfterDate) {

@@ -12,7 +12,9 @@ export async function sendMessage(message: ISendMessageBody): Promise<ISendMessa
 export async function createLog(message: ICreateLogBody): Promise<ISendMessageResponse> {
     return fetchApiBase.post(`messages-log/createLog`, message);
 }
-
+export async function validateCountMessages(amountSend: number): Promise<IValidateCountMessagesResponse> {
+    return fetchApiBase.post(`messages-log/validateCount`, { amountSend });
+}
 export async function getMessagesById(id: string): Promise<IMessageResponse> {
     return fetchApiContractor.get(`conversations/messages/${id}`);
 }

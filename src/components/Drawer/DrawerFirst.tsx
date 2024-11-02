@@ -7,8 +7,10 @@ import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
 import { getUser } from '@/api/users.api';
 import { IUser } from '@/models/IUser.model';
+import { useChatStore } from '@/hooks/chat.hook';
 
 export default function DrawerFirst() {
+    const { setOnModalTemplate, setMessageType, setTemplateSelected, setMessagesSent } = useChatStore();
     const [isMounted, setIsMounted] = useState(false);
     const [tokenDecrypted, setTokenDecrypted] = useState({ userName: '', userEmail: '' });
     const [data, setData] = useState<IUser>();
@@ -22,6 +24,13 @@ export default function DrawerFirst() {
 
     const handleLogout = () => {
         if (isMounted) {
+
+            setOnModalTemplate(false)
+            setMessageType({ value: "TYPE_SMS", label: "SMS" })
+            setTemplateSelected(null)
+            setContactsSelected([])
+            setMessagesSent([])
+
             Cookies.remove("token")
             router.push("/")
         }
@@ -98,3 +107,7 @@ export default function DrawerFirst() {
         </div>
     );
 }
+function setContactsSelected(arg0: never[]) {
+    throw new Error('Function not implemented.');
+}
+
