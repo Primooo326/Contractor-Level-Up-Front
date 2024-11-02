@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { login } from "@/api/auth.api";
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function LoginCard({ setCargando }: { setCargando: (b: boolean) => void, setReset: (b: boolean) => void }) {
+export default function LoginCard({ setCargando, setReset }: { setCargando: (b: boolean) => void, setReset: (b: boolean) => void }) {
     const router = useRouter();
     const [userForm, setUserForm] = useState("");
     const [password, setPassword] = useState("");
@@ -45,7 +45,11 @@ export default function LoginCard({ setCargando }: { setCargando: (b: boolean) =
                 return;
             }
             Cookies.set("token", res.token);
-            router.push("/home")
+            if (res.resetPass) {
+                setReset(true);
+            }else{
+                router.push("/home")
+            }
         } catch (error: any) {
             console.error(error);
             toast.error("Error al iniciar sesión.");

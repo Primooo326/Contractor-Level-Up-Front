@@ -20,9 +20,7 @@ export default function page() {
                 </motion.div>
 
             ) : (
-
                 <LoginCard setCargando={setCargando} setReset={setReset} />
-
             )}
         </>
     )
