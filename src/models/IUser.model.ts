@@ -22,4 +22,10 @@ export interface IBodyLogin {
     user: IUser;
 }
 
+export interface IBodyResetPass {
+    message?: string;
+    error?: string;
+    statusCode: number;
+}
+
 export type TUserLoginResponse = IResponseApiOne<IBodyLogin> | IBodyLogin
