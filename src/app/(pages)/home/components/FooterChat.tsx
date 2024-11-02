@@ -12,10 +12,9 @@ import {
 import { toast } from "react-toastify";
 
 const ToasDisplayLoader = () => {
-  const { contactsSelected, messagesSent } = useChatStore();
+  const { contactsSelected, messagesSent, setContactsSelected } = useChatStore();
 
   useEffect(() => {
-    console.log(messagesSent);
   }, [messagesSent]);
 
   return (
@@ -35,6 +34,7 @@ export default function FooterChat() {
     contactsSelected,
     messageType,
     setMessagesSent,
+    setContactsSelected
   } = useChatStore();
 
   const { handleSubmit, register, setValue, watch, reset } = useForm();
@@ -84,7 +84,8 @@ export default function FooterChat() {
           }
 
           setMessagesSent(sentMessages); // Actualiza el estado con todos los mensajes enviados
-
+          setContactsSelected([]);
+          
           toast.dismiss();
           toast.success(
             `(${sentMessages.length}/${contactsSelected.length}) mensajes enviados exitosamente`,
@@ -140,7 +141,6 @@ export default function FooterChat() {
 
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      // Envía el mensaje solo si Enter es presionado sin Shift
       e.preventDefault();
 
       handleSubmit(handleSendMessage)();
