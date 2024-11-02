@@ -1,7 +1,6 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 interface ChatState {
-
     contact: IContact | null;
     setContact: (contact: IContact | null) => void;
     chat: IMessages | null;
@@ -12,6 +11,10 @@ interface ChatState {
     setOnModalTemplate: (isOpen: boolean) => void;
     templateSelected: any | null;
     setTemplateSelected: (templateSelected: any) => void;
+    contactsSelected: IContactSearched[];
+    setContactsSelected: (contactsSelected: IContactSearched[]) => void;
+    messagesSent: any[];
+    setMessagesSent: (messagesSent: any[] | ((prevMessages: any[]) => any[])) => void; // Modificado
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -25,5 +28,10 @@ export const useChatStore = create<ChatState>((set) => ({
     setOnModalTemplate: (isOpen: boolean) => set({ onModalTemplate: isOpen }),
     templateSelected: null,
     setTemplateSelected: (templateSelected: any | null) => set({ templateSelected }),
-
-}))
+    contactsSelected: [],
+    setContactsSelected: (contactsSelected: IContactSearched[]) => set({ contactsSelected }),
+    messagesSent: [],
+    setMessagesSent: (messagesSent) => set((state) => ({
+        messagesSent: typeof messagesSent === 'function' ? messagesSent(state.messagesSent) : messagesSent
+    })),
+}));

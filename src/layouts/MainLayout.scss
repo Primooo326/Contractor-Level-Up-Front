@@ -58,9 +58,7 @@
 .drawer2 {
     width: $section5;
     border-right: $border;
-    display: grid;
     height: 100dvh;
-    grid-template-rows: auto 1fr;
 }
 
 
@@ -73,8 +71,4 @@
 .footer {
     height: $section1;
     border-top: $border;
-}
-
-.listConversations {
-    height: calc(100dvh - $section2)
 }
