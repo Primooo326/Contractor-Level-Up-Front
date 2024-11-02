@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import "./ResetCard.css"
+import "./ResetCard.css";
+import { changePassword } from "@/api/auth.api";
+import Cookies from "js-cookie";
 
 export default function ResetCard({ setCargando }: { setCargando: (b: boolean) => void }) {
-    const router = useRouter()
+    const router = useRouter();
 
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,16 +21,26 @@ export default function ResetCard({ setCargando }: { setCargando: (b: boolean) =
         setConfirmPassword(event.target.value);
     };
 
+    const isFormValid = newPassword.length >= 5 && confirmPassword.length >= 5 && newPassword === confirmPassword;
+
     const onClickReset = async (e: any) => {
         e.preventDefault();
+        if (!isFormValid) {
+            toast.error("Las contraseñas deben tener al menos 5 caracteres y coincidir.");
+            return;
+        }
         setCargando(true);
         try {
-            router.push("/dashboard");
-
+            const res = await changePassword(newPassword, confirmPassword);
+            if (res.statusCode === 200) {
+                toast.success("Contraseña cambiada exitosamente.", { autoClose: 5000 });
+                router.push("/home");
+            } else {
+                Cookies.remove("token");
+                router.push("/");
+            }
         } catch (error: any) {
             console.error(error);
-            toast.error(`${error}`, { autoClose: 5000 })
-            setCargando(false);
         }
         setCargando(false);
     };
@@ -37,32 +49,46 @@ export default function ResetCard({ setCargando }: { setCargando: (b: boolean) =
         setMostrarPassword(!mostrarPassword);
     };
 
-
     useEffect(() => {
-        toast.info("Por favor cambia tu contraseña", { autoClose: 5000 })
-        setCargando(false)
-    }, [])
+        toast.info("Por favor cambia tu contraseña", { autoClose: 5000 });
+        setCargando(false);
+    }, []);
+
     return (
-        <div className="card bg-primary p-[30px] flex flex-col items-center">
-            <Image className="usuLogo" src="/background/ICONO-CANDADO-GRANDE.png" width={126} height={127} alt="Usuario Logo" />
-            <h1 className="font-bold text-xl text-info mt-5 " >Cambia de contraseña</h1>
-            <form className="mt-5" >
-                <label className="input  flex items-center gap-2 mt-3">
-                    <svg role="img" aria-label="x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clipRule="evenodd" /></svg>
-                    <input onChange={handleNewPasswordChange} type={mostrarPassword ? "text" : "password"} className="grow" placeholder="Contraseña nueva" />
-                </label>
-                <label className="input  flex items-center gap-2 mt-3">
-                    <svg role="img" aria-label="x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clipRule="evenodd" /></svg>
-                    <input onChange={handlePasswordChange} type={mostrarPassword ? "text" : "password"} className="grow" placeholder="Repite contraseña" />
-                </label>
-                <div className="form-control">
-                    <label className="label cursor-pointer">
-                        <span className="label-text text-white">Mostrar contraseñas</span>
-                        <input onChange={MostrarPass} type="checkbox" className="checkbox checkbox-secondary" />
-                    </label>
+        <div className="flex flex-col items-center justify-center h-screen px-4 bg-gray-100">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                <div className="flex justify-center mb-4">
+                <Image src="/logo.jpg" width={300} height={50} alt="Logo" />
                 </div>
-                <button onClick={onClickReset} className="btn btn-accent bordered btn-block mt-5">Cambiar contraseña</button>
-            </form>
+                <h1 className="text-center text-xl text-gray-900 mb-6 mt-5">Cambia de contraseña</h1>
+                <form>
+                    <label className="input flex items-center bg-gray-100 rounded-lg py-2 px-3 mb-4">
+                        <svg role="img" aria-label="x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 text-gray-500 mr-3">
+                            <path fillRule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clipRule="evenodd" />
+                        </svg>
+                        <input onChange={handleNewPasswordChange} type={mostrarPassword ? "text" : "password"} className="bg-gray-100 outline-none grow" placeholder="Contraseña nueva" />
+                    </label>
+                    <label className="input flex items-center bg-gray-100 rounded-lg py-2 px-3 mb-4">
+                        <svg role="img" aria-label="x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 text-gray-500 mr-3">
+                            <path fillRule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clipRule="evenodd" />
+                        </svg>
+                        <input onChange={handlePasswordChange} type={mostrarPassword ? "text" : "password"} className="bg-gray-100 outline-none grow" placeholder="Repite contraseña" />
+                    </label>
+                    <div className="flex items-center justify-between mb-4">
+                        <label className="flex items-center text-sm text-gray-600">
+                            <input type="checkbox" onChange={MostrarPass} className="mr-2" />
+                            Mostrar contraseñas
+                        </label>
+                    </div>
+                    <button 
+                        onClick={onClickReset} 
+                        disabled={!isFormValid}
+                        className={`w-full py-2 rounded-lg shadow-lg transition-colors mt-5 ${isFormValid ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-gray-400 cursor-not-allowed"}`}
+                    >
+                        Actualizar contraseña
+                    </button>
+                </form>
+            </div>
         </div>
-    )
+    );
 }
