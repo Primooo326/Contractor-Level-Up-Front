@@ -90,6 +90,11 @@ interface ISendMessageBody {
     toNumber: string;
 }
 
+interface ICreateLogBody {
+    toNumber: string
+    messageContent: string;
+}
+
 interface ISendMessageResponse {
     conversationId: string;
     messageId: string;
