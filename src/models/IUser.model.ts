@@ -17,6 +17,7 @@ export interface IUser {
 }
 
 export interface IBodyLogin {
+    message: string;
     resetPass: boolean;
     token: string;
     user: IUser;

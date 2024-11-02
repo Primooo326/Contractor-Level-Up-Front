@@ -3,7 +3,16 @@ import { fetchApiBase } from "./instances";
 
 
 export async function login(email: string, password: string): Promise<IBodyLogin> {
-    return fetchApiBase.post(`/auth/login`, { email, password });
+    try {
+        const response = await fetchApiBase.post(`/auth/login`, { email, password });
+        return response; 
+    } catch (error: any) {
+        if (error.response && error.response.data && error.response.data.message) {
+            throw new Error(error.response.data.message); 
+        } else {
+            throw new Error("Error desconocido al iniciar sesión."); 
+        }
+    }
 }
 
 export async function changePassword(newPassword: string, repeatPassword: string): Promise<IBodyResetPass> {

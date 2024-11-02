@@ -40,7 +40,7 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
         try {
             const res = await login(userForm, password);
             if (!res.token) {
-                toast.error('Error iniciando sesión...');
+                toast.error(res.message);
                 setCargando(false);
                 return;
             }
@@ -51,8 +51,8 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
                 router.push("/home")
             }
         } catch (error: any) {
-            console.error(error);
-            toast.error("Error al iniciar sesión.");
+            console.error(error); 
+            toast.error(error.message);
         }
         setCargando(false);
     };
