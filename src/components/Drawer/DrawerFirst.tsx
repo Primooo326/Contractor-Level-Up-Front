@@ -5,10 +5,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
+import { getUser } from '@/api/users.api';
+import { IUser } from '@/models/IUser.model';
 
 export default function DrawerFirst() {
     const [isMounted, setIsMounted] = useState(false);
     const [tokenDecrypted, setTokenDecrypted] = useState({ userName: '', userEmail: '' });
+    const [data, setData] = useState<IUser>();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -24,11 +27,13 @@ export default function DrawerFirst() {
         }
     };
 
-    const fetchData = () => {
+    const fetchData = async () => {
         const token = Cookies.get("token") || null;
         if (token) {
             const decoded = decodeToken(token);
             setTokenDecrypted(decoded);
+            const response = await getUser(decoded?.userId);
+            setData(response);
         }
     }
 
@@ -38,10 +43,12 @@ export default function DrawerFirst() {
     };
 
     const menuItems = [
-        { icon: 'fa-solid:users', label: 'Usuarios', route: '/users' },
-        { icon: 'mingcute:paper-fill', label: 'Plantillas', route: '/templates' },
-        { icon: 'material-symbols:chat', label: 'Chats', route: '/home' }
+        { icon: 'fa-solid:users', code: 1, label: 'Usuarios', route: '/users' },
+        { icon: 'mingcute:paper-fill', code: 2, label: 'Plantillas', route: '/templates' },
+        { icon: 'material-symbols:chat', code: 3, label: 'Chats', route: '/home' }
     ];
+
+    const filteredMenuItems = data?.is_admin ? menuItems : menuItems.filter(item => item.code === 3);
 
     return (
         <div className='drawer1'>
@@ -70,7 +77,7 @@ export default function DrawerFirst() {
             </div>
 
             <div className="drawer-buttons">
-                {menuItems.map(({ icon, label, route }, idx) => (
+                {filteredMenuItems.map(({ icon, label, route }, idx) => (
                     <Link href={route} key={idx}>
                         <button className={`w-full flex items-center gap-4 p-3 rounded-lg ${pathname === route ? 'bg-gray-200' : 'bg-gray-100 hover:bg-gray-200'} transition`}>
                             <div className="flex justify-center items-center bg-white size-10 rounded-full">

@@ -3,7 +3,7 @@ import { useChatStore } from '@/hooks/chat.hook';
 import React, { useEffect, useRef, useState } from 'react';
 import ModalTemplates from './ModalTemplates';
 import { useForm } from 'react-hook-form';
-import { getMessagesById, sendMessage } from '@/api/goHighLevel/messages.api';
+import { createLog, getMessagesById, sendMessage } from '@/api/goHighLevel/messages.api';
 import { toast } from 'react-toastify';
 
 const ToasDisplayLoader = () => {
@@ -55,6 +55,11 @@ export default function FooterChat() {
 
                 try {
                     const resp = await sendMessage(body);
+                    await createLog({ 
+                        toNumber: body.toNumber,
+                        messageContent: body.message
+                     });
+                    
                     sentMessages.push(resp.messageId); // Agrega cada messageId al array temporal
                     setMessagesSent((prev) => [...prev, resp.messageId]); // Actualiza el estado con todos los mensajes enviados
                 } catch (err) {
