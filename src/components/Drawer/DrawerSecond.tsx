@@ -39,6 +39,9 @@ export default function DrawerSecond() {
         getConversations(assignedTo, queryes[i]).then((data) => {
           setContactsList((prevContacts) => {
             console.log([...prevContacts, ...data?.conversations]);
+            if (data?.conversations.length === 1) {
+              selectContact(data?.conversations[0]);
+            }
             return [...prevContacts, ...data?.conversations];
           });
         });
@@ -56,12 +59,12 @@ export default function DrawerSecond() {
     console.log(contact);
     const contactFound = contactsSelected.findIndex((contactSelected) => contactSelected.id === contact.id);
 
-    if (contactFound !== -1) {
-      const newContactsSelected = contactsSelected.filter((c, i) => i !== contactFound);
-      setContactsSelected(newContactsSelected);
-    } else {
+    if (contactFound === -1) {
       const newContactsSelected = [...contactsSelected, contact];
       setContactsSelected(newContactsSelected);
+    } else {
+      // const newContactsSelected = contactsSelected.filter((c, i) => i !== contactFound);
+      // setContactsSelected(newContactsSelected);
     }
 
   }
@@ -104,7 +107,7 @@ export default function DrawerSecond() {
           {contactsList.map((contact, index) => (
             <div
               key={index}
-              className="flex justify-between items-center w-full hover:bg-gray-100 p-4 rounded-lg"
+              className={`flex justify-between items-center w-full hover:bg-gray-100 p-4 rounded-lg ${contactsSelected.findIndex((contactSelected) => contactSelected.id === contact.id) !== -1 ? "bg-slate-100" : ""}`}
               onClick={() => selectContact(contact)}
             >
               <div className="flex items-center gap-2 w-full">
