@@ -19,7 +19,16 @@ export default function DrawerSecond() {
       e.preventDefault();
       setQueryes([])
       setContactsList([])
-      const queryesToSearch = e.target.value.split(",").map((q: string) => q.trim());
+
+      let queryesToSearch
+      if (e.target.value.includes(",")) {
+        queryesToSearch = e.target.value.split(",").map((q: string) => q.trim())
+      } else if (e.target.value.includes("  ")) {
+        queryesToSearch = e.target.value.split("  ").filter((p: string) => p !== "").map((q: string) => q.trim())
+      }
+      else {
+        queryesToSearch = e.target.value.split("+").filter((p: string) => p !== "").map((p: string) => "+" + p.trim())
+      }
       console.log(queryesToSearch);
       setQueryes(queryesToSearch);
 
@@ -39,7 +48,11 @@ export default function DrawerSecond() {
         getConversations(assignedTo, queryes[i]).then((data) => {
           setContactsList((prevContacts) => {
             console.log([...prevContacts, ...data?.conversations]);
-            if (data?.conversations.length === 1) {
+            // if (data?.conversations.length === 1) {
+            //   selectContact(data?.conversations[0]);
+            // }
+            if (contactsSelected.findIndex(c => c.id === data?.conversations[0].id) === -1) {
+
               selectContact(data?.conversations[0]);
             }
             return [...prevContacts, ...data?.conversations];
@@ -56,16 +69,10 @@ export default function DrawerSecond() {
 
   const selectContact = (contact: IConversation) => {
 
-    console.log(contact);
-    const contactFound = contactsSelected.findIndex((contactSelected) => contactSelected.id === contact.id);
-
-    if (contactFound === -1) {
-      const newContactsSelected = [...contactsSelected, contact];
-      setContactsSelected(newContactsSelected);
-    } else {
-      // const newContactsSelected = contactsSelected.filter((c, i) => i !== contactFound);
-      // setContactsSelected(newContactsSelected);
-    }
+    setContactsSelected((prevContacts) => {
+      const newContactsSelected = [...prevContacts, contact];
+      return newContactsSelected;
+    });
 
   }
 

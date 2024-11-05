@@ -84,8 +84,8 @@ export default function FooterChat() {
           }
 
           setMessagesSent(sentMessages); // Actualiza el estado con todos los mensajes enviados
-          setContactsSelected([]);
-          
+          // setContactsSelected([]);
+
           toast.dismiss();
           toast.success(
             `(${sentMessages.length}/${contactsSelected.length}) mensajes enviados exitosamente`,

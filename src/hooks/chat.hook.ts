@@ -9,7 +9,7 @@ interface ChatState {
     templateSelected: any | null;
     setTemplateSelected: (templateSelected: any) => void;
     contactsSelected: IConversation[];
-    setContactsSelected: (contactsSelected: IConversation[]) => void;
+    setContactsSelected: (contactsSelected: IConversation[] | ((prevMessages: IConversation[]) => IConversation[])) => void;
     messagesSent: any[];
     setMessagesSent: (messagesSent: any[] | ((prevMessages: any[]) => any[])) => void;
 }
@@ -23,7 +23,9 @@ export const useChatStore = create<ChatState>((set) => ({
     templateSelected: null,
     setTemplateSelected: (templateSelected: any | null) => set({ templateSelected }),
     contactsSelected: [],
-    setContactsSelected: (contactsSelected: IConversation[]) => set({ contactsSelected }),
+    setContactsSelected: (contactsSelected: IConversation[] | ((prevMessages: IConversation[]) => IConversation[])) => set((state) => ({
+        contactsSelected: typeof contactsSelected === 'function' ? contactsSelected(state.contactsSelected) : contactsSelected
+    })),
     messagesSent: [],
     setMessagesSent: (messagesSent) => set((state) => ({
         messagesSent: typeof messagesSent === 'function' ? messagesSent(state.messagesSent) : messagesSent
