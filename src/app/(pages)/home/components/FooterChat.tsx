@@ -67,6 +67,7 @@ export default function FooterChat() {
               scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
               fromNumber: "+18448997259",
               toNumber: contact.phone!,
+
             };
 
             try {

@@ -88,6 +88,7 @@ interface ISendMessageBody {
     scheduledTimestamp: number;
     fromNumber: string;
     toNumber: string;
+    templateId?: string;
 }
 
 interface ICreateLogBody {
@@ -99,6 +100,7 @@ interface ISendMessageResponse {
     conversationId: string;
     messageId: string;
     traceId: string;
+
 }
 
 interface IValidateCountMessagesResponse {
