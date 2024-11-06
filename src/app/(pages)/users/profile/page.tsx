@@ -147,7 +147,7 @@ export default function Page() {
 
                         {data?.is_admin && (
                             <div className="flex flex-col gap-1">
-                                <label className='label'>Mensajes Por Minuto</label>
+                                <label className='label'>Mensajes Por Día</label>
                                 <input
                                     type="number"
                                     className='textarea textarea-bordered'
