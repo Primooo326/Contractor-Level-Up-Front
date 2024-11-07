@@ -72,3 +72,7 @@
     height: $section1;
     border-top: $border;
 }
+
+.listContactsContainer {
+    height: calc(100dvh - $section1);
+}

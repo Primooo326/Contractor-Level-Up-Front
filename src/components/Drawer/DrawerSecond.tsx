@@ -46,15 +46,13 @@ export default function DrawerSecond() {
       for (let i = 0; i < queryes.length; i++) {
         console.log(queryes[i]);
         getConversations(assignedTo, queryes[i]).then((data) => {
+          console.log(data);
           setContactsList((prevContacts) => {
             console.log([...prevContacts, ...data?.conversations]);
-            // if (data?.conversations.length === 1) {
-            //   selectContact(data?.conversations[0]);
-            // }
-            if (contactsSelected.findIndex(c => c.id === data?.conversations[0].id) === -1) {
-
+            if (data?.conversations.length === 1 && contactsSelected.findIndex(c => c.id === data?.conversations[0].id) === -1) {
               selectContact(data?.conversations[0]);
             }
+
             return [...prevContacts, ...data?.conversations];
           });
         });
@@ -110,7 +108,7 @@ export default function DrawerSecond() {
         <h1 className="text-center text-sm text-gray-500 mt-4">
           {loading ? "Buscando..." : `${contactsList.length} contactos encontrados`}
         </h1>
-        <div className="h-full space-y-2 overflow-y-auto scrollbar-custom pb-10">
+        <div className="space-y-2 overflow-y-auto scrollbar-custom pb-10 listContactsContainer">
           {contactsList.map((contact, index) => (
             <div
               key={index}

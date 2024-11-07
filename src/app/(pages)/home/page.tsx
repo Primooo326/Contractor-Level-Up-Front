@@ -19,13 +19,17 @@ export default function page() {
 
     return (
         <>
-            {contactsSelected.length > 0 ?
+            {/* {contactsSelected.length > 0 ?
                 <div className='pageChat'>
                     <HeaderChat />
                     <BodyChat />
                     <FooterChat />
-                </div> : <SkeletonChat />}
-
+                </div> : <SkeletonChat />} */}
+            <div className='pageChat'>
+                <HeaderChat />
+                <BodyChat />
+                <FooterChat />
+            </div>
         </>
     )
 }

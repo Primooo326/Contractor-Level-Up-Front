@@ -1,3 +1,4 @@
+"use client"
 import { useChatStore } from '@/hooks/chat.hook'
 import { FaXmark } from 'react-icons/fa6'
 
@@ -19,6 +20,13 @@ export default function BodyChat() {
 
     return (
         <div className='bodyChat overflow-y-auto scrollbar-custom p-4'>
+            {
+                contactsSelected.length !== 0 &&
+                <button className='btn btn-warning text-white btn-sm mb-4' onClick={() => setContactsSelected([])}>
+                    Eliminar todos
+                    <FaXmark />
+                </button>
+            }
             <div className='flex flex-wrap gap-4 w-full'>
 
                 {contactsSelected.map((contact, index) => (
