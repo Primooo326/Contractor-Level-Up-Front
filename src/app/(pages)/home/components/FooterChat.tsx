@@ -51,6 +51,7 @@ export default function FooterChat() {
     await validateCountMessages(contactsSelected.length).then(async (resp) => {
       if (resp.canSend) {
         console.log(resp);
+        console.log(templateSelected);
         if (!load) {
           setLoad(true);
           toast.loading(<ToasDisplayLoader />);
@@ -63,11 +64,12 @@ export default function FooterChat() {
               contactId: contact.contactId,
               appointmentId: "APPOINTMENT_ID",
               message: data.message,
+              // message: messageType.value === "TYPE_WHATSAPP" ? "" : data.message,
               subject: "Sample Subject",
               scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
               fromNumber: "+18448997259",
               toNumber: contact.phone!,
-
+              // templateId: messageType.value === "TYPE_WHATSAPP" ? templateSelected?.idTemplate : null,
             };
 
             try {
@@ -97,6 +99,7 @@ export default function FooterChat() {
             }
           );
 
+          setTemplateSelected(null);
           setLoad(false);
           reset();
         }
@@ -125,7 +128,8 @@ export default function FooterChat() {
         currentText.substring(end);
 
       setValue("message", newText);
-      setTemplateSelected(null); // Resetea el template seleccionado
+      console.log(templateSelected);
+      //setTemplateSelected(null); // Resetea el template seleccionado
     }
   }, [templateSelected]);
 

@@ -22,12 +22,12 @@ export default function DrawerSecond() {
 
       let queryesToSearch
       if (e.target.value.includes(",")) {
-        queryesToSearch = e.target.value.split(",").map((q: string) => q.trim())
-      } else if (e.target.value.includes("  ")) {
-        queryesToSearch = e.target.value.split("  ").filter((p: string) => p.length < 6).map((q: string) => q.trim())
+        queryesToSearch = e.target.value.split(",").filter((p: string) => p.length > 6).map((q: string) => q.trim())
+      } else if (e.target.value.includes(" ")) {
+        queryesToSearch = e.target.value.split(" ").filter((p: string) => p.length > 6).map((q: string) => q.trim())
       }
       else {
-        queryesToSearch = e.target.value.split("+").filter((p: string) => p.length < 6).map((p: string) => "+" + p.trim())
+        queryesToSearch = e.target.value.split("+").filter((p: string) => p.length > 6).map((p: string) => "+" + p.trim())
       }
       console.log(queryesToSearch);
       setQueryes(queryesToSearch);
