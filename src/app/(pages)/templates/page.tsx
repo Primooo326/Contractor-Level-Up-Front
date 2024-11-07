@@ -163,7 +163,7 @@ export default function Page() {
                     <div className="table-header">
                         <h1>Plantillas</h1>
                         <div className='flex gap-5'>
-                            <button className='btn btn-success' onClick={handleCreate}>Nueva Plantilla</button>
+                            {/* <button className='btn btn-success' onClick={handleCreate}>Nueva Plantilla</button> */}
                         </div>
                     </div>
                     {loading ? (
@@ -172,15 +172,15 @@ export default function Page() {
                         <div className="table">
                             <div className="table-row table-header">
                                 <div className="table-cell">Descripción</div>
-                                <div className="table-cell">Acciones</div>
+                                {/* <div className="table-cell">Acciones</div> */}
                             </div>
                             {data.map((row) => (
                                 <div key={row.id} className="table-row">
                                     <div className="table-cell">{row.description}</div>
-                                    <div className="table-cell actions-container">
+                                    {/* <div className="table-cell actions-container">
                                         <button className='btn btn-warning btn-sm' onClick={() => setTemplateToEdit(row)}>Editar</button>
                                         <button className='btn btn-error btn-sm' onClick={() => { setTemplateToDelete(row); }}>Eliminar</button>
-                                    </div>
+                                    </div> */}
                                 </div>
                             ))}
                         </div>
