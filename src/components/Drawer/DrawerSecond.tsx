@@ -23,7 +23,10 @@ export default function DrawerSecond() {
       let queryesToSearch
       if (e.target.value.includes(",")) {
         queryesToSearch = e.target.value.split(",").filter((p: string) => p.length > 6).map((q: string) => q.trim())
-      } else if (e.target.value.includes(" ")) {
+      } else if (e.target.value.includes("(")) {
+        queryesToSearch = e.target.value.match(/\(\d{3}\) \d{3}-\d{4}/g)
+      }
+      else if (e.target.value.includes(" ")) {
         queryesToSearch = e.target.value.split(" ").filter((p: string) => p.length > 6).map((q: string) => q.trim())
       }
       else {

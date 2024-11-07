@@ -15,7 +15,7 @@ export default function HeaderChat() {
     useEffect(() => {
         setOptions([
             { value: "TYPE_SMS", label: "SMS" },
-            { value: "TYPE_WHATSAPP", label: "WhatsApp" },
+            // { value: "TYPE_WHATSAPP", label: "WhatsApp" },
         ])
     }, [])
 
