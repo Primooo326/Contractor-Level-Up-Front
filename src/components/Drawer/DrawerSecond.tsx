@@ -20,20 +20,8 @@ export default function DrawerSecond() {
       setQueryes([])
       setContactsList([])
 
-      let queryesToSearch
-      if (e.target.value.includes(",")) {
-        queryesToSearch = e.target.value.split(",").filter((p: string) => p.length > 6).map((q: string) => q.trim())
-      } else if (e.target.value.includes("(")) {
-        queryesToSearch = e.target.value.match(/\(\d{3}\) \d{3}-\d{4}/g)
-      }
-      else if (e.target.value.includes(" ")) {
-        queryesToSearch = e.target.value.split(" ").filter((p: string) => p.length > 6).map((q: string) => q.trim())
-      }
-      else {
-        queryesToSearch = e.target.value.split("+").filter((p: string) => p.length > 6).map((p: string) => "+" + p.trim())
-      }
-      console.log(queryesToSearch);
-      setQueryes(queryesToSearch);
+      console.log(e.target.value.match(/(\+\d{11}|\(\d{3}\) \d{3}-\d{4}|\d{10})/g));
+      setQueryes(e.target.value.match(/(\+\d{11}|\(\d{3}\) \d{3}-\d{4}|\d{10})/g));
 
     }
 

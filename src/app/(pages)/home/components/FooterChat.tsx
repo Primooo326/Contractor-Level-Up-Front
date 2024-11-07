@@ -67,7 +67,7 @@ export default function FooterChat() {
               // message: messageType.value === "TYPE_WHATSAPP" ? "" : data.message,
               subject: "Sample Subject",
               scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
-              fromNumber: "+18448997259",
+              fromNumber: "+18557256650",
               toNumber: contact.phone!,
               // templateId: messageType.value === "TYPE_WHATSAPP" ? templateSelected?.idTemplate : null,
             };
