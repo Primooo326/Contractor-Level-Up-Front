@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 
 interface ChatState {
-
     onModalTemplate: boolean;
     setOnModalTemplate: (isOpen: boolean) => void;
-    messageType: { value: EMessageType, label: string }
+    messageType: { value: EMessageType, label: string };
     setMessageType: (messageType: { value: EMessageType, label: string }) => void;
+    fromNumber: string;
+    setFromNumber: (number: string) => void;
     templateSelected: any | null;
     setTemplateSelected: (templateSelected: any) => void;
     contactsSelected: IConversation[];
@@ -15,17 +16,22 @@ interface ChatState {
 }
 
 export const useChatStore = create<ChatState>((set) => ({
-
     onModalTemplate: false,
     setOnModalTemplate: (isOpen: boolean) => set({ onModalTemplate: isOpen }),
     messageType: { value: "TYPE_SMS", label: "SMS" },
     setMessageType: (messageType: { value: EMessageType, label: string }) => set({ messageType }),
+
+    fromNumber: '+18557256650',
+    setFromNumber: (number: string) => set({ fromNumber: number }),
+
     templateSelected: null,
     setTemplateSelected: (templateSelected: any | null) => set({ templateSelected }),
+
     contactsSelected: [],
     setContactsSelected: (contactsSelected: IConversation[] | ((prevMessages: IConversation[]) => IConversation[])) => set((state) => ({
         contactsSelected: typeof contactsSelected === 'function' ? contactsSelected(state.contactsSelected) : contactsSelected
     })),
+
     messagesSent: [],
     setMessagesSent: (messagesSent) => set((state) => ({
         messagesSent: typeof messagesSent === 'function' ? messagesSent(state.messagesSent) : messagesSent

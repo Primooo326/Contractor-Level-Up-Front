@@ -33,6 +33,7 @@ export default function FooterChat() {
     setTemplateSelected,
     contactsSelected,
     messageType,
+    fromNumber,
     setMessagesSent,
     setContactsSelected
   } = useChatStore();
@@ -50,8 +51,6 @@ export default function FooterChat() {
   const handleSendMessage = async (data: any) => {
     await validateCountMessages(contactsSelected.length).then(async (resp) => {
       if (resp.canSend) {
-        console.log(resp);
-        console.log(templateSelected);
         if (!load) {
           setLoad(true);
           toast.loading(<ToasDisplayLoader />);
@@ -67,7 +66,7 @@ export default function FooterChat() {
               // message: messageType.value === "TYPE_WHATSAPP" ? "" : data.message,
               subject: "Sample Subject",
               scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
-              fromNumber: "+18557256650",
+              fromNumber: fromNumber,
               toNumber: contact.phone!,
               // templateId: messageType.value === "TYPE_WHATSAPP" ? templateSelected?.idTemplate : null,
             };
