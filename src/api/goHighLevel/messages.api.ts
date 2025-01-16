@@ -20,15 +20,6 @@ export async function getMessagesById(id: string): Promise<IMessageResponse> {
     return fetchApiContractor.get(`conversations/messages/${id}`);
 }
 
-export async function validateFromNumber(email: string): Promise<ISendMessageResponse> {
-    const body = {
-        "filter": {
-            "property": "CLU Email",
-            "email": {
-                "contains": email
-            }
-        }
-    }
-
-    return fetchApiNotion.post(`v1/databases/${NOTION_DATABASE_ID}/query`, body);
+export async function validateFromNumber(email: string): Promise<IFromNumberResponse> {
+    return fetchApiBase.post(`messages-log/validateFromNumber`, { email });
 }

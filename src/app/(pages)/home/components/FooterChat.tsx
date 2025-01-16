@@ -11,6 +11,8 @@ import {
   validateCountMessages,
 } from "@/api/goHighLevel/messages.api";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 const ToasDisplayLoader = () => {
   const { contactsSelected, messagesSent, setContactsSelected } = useChatStore();
@@ -36,7 +38,8 @@ export default function FooterChat() {
     messageType,
     fromNumber,
     setMessagesSent,
-    setContactsSelected
+    setContactsSelected,
+    setFromNumber
   } = useChatStore();
 
   const { handleSubmit, register, setValue, watch, reset } = useForm();
@@ -50,12 +53,33 @@ export default function FooterChat() {
   };
 
   const getFromNumber = async () => {
-    const resp = await validateFromNumber('pilar.velasquez@contractorlevelup.com');
-    console.log('resp => ', resp);
+    const token = Cookies.get("token");
+
+    if (!token) {
+      console.error("Token no encontrado en las cookies");
+      return "+18557256650";
+    }
+
+    const decodedToken: any = jwtDecode(token);
+    const email = decodedToken?.userEmail;
     
-    // Aquí puedes agregar la lógica que necesites para calcular el número
-    const dynamicFromNumber = "LOGICA_DINAMICA"; // Reemplaza con tu lógica
-    return dynamicFromNumber;
+    if (!email) {
+      console.error("Correo no encontrado en el token");
+      return "+18557256650";
+    }
+
+    const resp = await validateFromNumber(email);
+    
+    let data = '';
+
+    if (resp.data) {
+      data = resp.data;
+    }else{
+      data = '+18557256650';
+    }
+    
+    setFromNumber(data);
+    return data;
   };
 
   const handleSendMessage = async (data: any) => {
@@ -63,7 +87,7 @@ export default function FooterChat() {
       if (resp.canSend) {
         if (!load) {
           setLoad(true);
-          // toast.loading(<ToasDisplayLoader />);
+          toast.loading(<ToasDisplayLoader />);
 
           const sentMessages = []; 
 
@@ -76,13 +100,12 @@ export default function FooterChat() {
               // message: messageType.value === "TYPE_WHATSAPP" ? "" : data.message,
               subject: "Sample Subject",
               scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
-              fromNumber: fromNumber,
-              fromNumber2: getFromNumber(),
+              fromNumber: await getFromNumber(),
+              fromNumber2: fromNumber,
               toNumber: contact.phone!,
               // templateId: messageType.value === "TYPE_WHATSAPP" ? templateSelected?.idTemplate : null,
             };
 
-            console.log("Cuerpo antes del envío", body);
             try {
               const resp = await sendMessage(body);
               await createLog({

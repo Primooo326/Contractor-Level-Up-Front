@@ -21,7 +21,7 @@ export const useChatStore = create<ChatState>((set) => ({
     messageType: { value: "TYPE_SMS", label: "SMS" },
     setMessageType: (messageType: { value: EMessageType, label: string }) => set({ messageType }),
 
-    fromNumber: '+18557256650',
+    fromNumber: '',
     setFromNumber: (number: string) => set({ fromNumber: number }),
 
     templateSelected: null,

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Select, { StylesConfig, SingleValue } from 'react-select';
 
 export default function HeaderChat() {
-    const { contactsSelected, messageType, setMessageType, setFromNumber } = useChatStore();
+    const { contactsSelected, messageType, setMessageType, setFromNumber, fromNumber } = useChatStore();
     const [options, setOptions] = useState<{ value: any, label: string }[]>([])
     const [optionsNumbers, setoptionsNumbers] = useState<{ value: string, label: string }[]>([]);
     const [selectedOption, setSelectedOption] = useState<{ value: string; label: string } | null>(null);
@@ -62,7 +62,8 @@ export default function HeaderChat() {
         ];
 
         setoptionsNumbers(numbers);
-        setSelectedOption(numbers[1]);
+        const defaultOption = numbers.find((n) => n.value === fromNumber);
+        setSelectedOption(defaultOption || numbers[1]);
     }, []);
 
     const stylesSelect: StylesConfig<{ value: string; label: string }> = {
@@ -76,15 +77,12 @@ export default function HeaderChat() {
                 </h1>
                 <div className="flex items-center space-x-3">
                     <label>From:</label>
-                    <Select<{ value: string; label: string }>
-                        value={selectedOption}
-                        className='w-[200px]'
-                        onChange={(option: SingleValue<{ value: string; label: string }>) => {
-                            setSelectedOption(option);
-                            selectNumberFrom(option);
-                        }}
-                        options={optionsNumbers}
-                        styles={stylesSelect}
+                    <input
+                        id="fromNumber"
+                        type="text"
+                        value={fromNumber || ''}
+                        readOnly
+                        className="w-[200px] px-2 py-1 border border-gray-300 rounded bg-gray-100 cursor-not-allowed text-gray-600"
                     />
                 </div>
                 {/* <Select
