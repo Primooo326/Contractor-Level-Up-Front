@@ -104,6 +104,10 @@ interface ISendMessageResponse {
 
 }
 
+interface IFromNumberResponse {
+    data: string;
+}
+
 interface IValidateCountMessagesResponse {
     messagesSend: number;
     messagesAllowed: number;
