@@ -7,6 +7,7 @@ import {
   createLog,
   getMessagesById,
   sendMessage,
+  validateFromNumber,
   validateCountMessages,
 } from "@/api/goHighLevel/messages.api";
 import { toast } from "react-toastify";
@@ -48,14 +49,23 @@ export default function FooterChat() {
     setOnModalTemplate(true);
   };
 
+  const getFromNumber = async () => {
+    const resp = await validateFromNumber('pilar.velasquez@contractorlevelup.com');
+    console.log('resp => ', resp);
+    
+    // Aquí puedes agregar la lógica que necesites para calcular el número
+    const dynamicFromNumber = "LOGICA_DINAMICA"; // Reemplaza con tu lógica
+    return dynamicFromNumber;
+  };
+
   const handleSendMessage = async (data: any) => {
     await validateCountMessages(contactsSelected.length).then(async (resp) => {
       if (resp.canSend) {
         if (!load) {
           setLoad(true);
-          toast.loading(<ToasDisplayLoader />);
+          // toast.loading(<ToasDisplayLoader />);
 
-          const sentMessages = []; // Array temporal para acumular los mensajes enviados
+          const sentMessages = []; 
 
           for (const contact of contactsSelected) {
             const body: ISendMessageBody = {
@@ -67,10 +77,12 @@ export default function FooterChat() {
               subject: "Sample Subject",
               scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
               fromNumber: fromNumber,
+              fromNumber2: getFromNumber(),
               toNumber: contact.phone!,
               // templateId: messageType.value === "TYPE_WHATSAPP" ? templateSelected?.idTemplate : null,
             };
 
+            console.log("Cuerpo antes del envío", body);
             try {
               const resp = await sendMessage(body);
               await createLog({
@@ -107,6 +119,7 @@ export default function FooterChat() {
       }
     });
   };
+
   const handleCursorChange = () => {
     if (textareaRef.current) {
       setCursorPosition({

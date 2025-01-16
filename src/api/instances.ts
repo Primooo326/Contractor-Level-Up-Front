@@ -1,15 +1,21 @@
-import { API_BASE_URL, API_CONTRACTOR_URL, CONTRACTOR_KEY } from "@/config";
+import { API_BASE_NOTION, API_BASE_URL, API_CONTRACTOR_URL, CONTRACTOR_KEY, NOTION_KEY } from "@/config";
 import axios, { type AxiosResponse, type ResponseType } from 'axios';
 import { toast } from "react-toastify";
 import Cookies from "js-cookie"
 import { IParamsRequest } from "@/models/IResponseApi.model";
 
-const instance = (api: "contractor" | "base", headers?: any) => {
+const instance = (api: "contractor" | "base" | "notion", headers?: any) => {
     let baseURL: string = 'contractor';
     if (api === 'contractor') {
         baseURL = API_CONTRACTOR_URL;
     } else if (api === 'base') {
         baseURL = API_BASE_URL;
+    } else if (api === 'notion') {
+        baseURL = API_BASE_NOTION;
+        headers = {
+            "Content-Type": "application/json",
+            "Notion-Version": "2022-02-22",
+        };
     } else {
         baseURL = API_BASE_URL;
     }
@@ -21,17 +27,20 @@ const instance = (api: "contractor" | "base", headers?: any) => {
             "version": "2021-07-28",
         },
     });
-    
+
     instancia.interceptors.request.use(
         (config) => {
             let tokenContractor = CONTRACTOR_KEY;
+            let tokenNotion = NOTION_KEY;
             let token = ""
             if (Cookies.get('token')) {
                 token = String(Cookies.get('token'));
             }
-            if (api == 'contractor'){
+            if (api == 'contractor') {
                 config.headers.Authorization = tokenContractor ? `Bearer ${tokenContractor}` : null;
-            }else if (token) {
+            }else if (api == 'notion'){
+                config.headers.Authorization = tokenNotion ? `Bearer ${tokenNotion}` : null;
+            } else if (token) {
                 config.headers.Authorization = token ? `Bearer ${token}` : null;
             }
             return config;
@@ -71,7 +80,7 @@ const responseBody = (response: AxiosResponse) =>
 export const fetchApiContractor = {
     get: (url: string, responseType?: ResponseType) =>
         instance("contractor")
-            .get(url, { 
+            .get(url, {
                 responseType,
             })
             .then(responseBody),
@@ -99,4 +108,20 @@ export const fetchApiBase = {
     patch: (url: string, body?: any) =>
         instance("base").patch(url, body).then(responseBody),
     delete: (url: string) => instance("base").delete(url).then(responseBody),
+};
+
+export const fetchApiNotion = {
+    get: (url: string, params?: IParamsRequest, responseType?: ResponseType) =>
+        instance("notion")
+            .get(url, {
+                params,
+                responseType,
+            })
+            .then(responseBody),
+    post: (url: string, body?: any) =>
+        instance("notion").post(url, body).then(responseBody),
+    put: (url: string, body?: any) => instance("notion").patch(url, body).then(responseBody),
+    patch: (url: string, body?: any) =>
+        instance("notion").patch(url, body).then(responseBody),
+    delete: (url: string) => instance("notion").delete(url).then(responseBody),
 };

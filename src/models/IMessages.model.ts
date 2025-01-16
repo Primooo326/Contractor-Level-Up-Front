@@ -87,6 +87,7 @@ interface ISendMessageBody {
     subject: string;
     scheduledTimestamp: number;
     fromNumber: string;
+    fromNumber2?: any;
     toNumber: string;
     templateId?: string;
 }
