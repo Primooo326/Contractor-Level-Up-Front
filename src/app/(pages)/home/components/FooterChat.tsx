@@ -101,7 +101,7 @@ export default function FooterChat() {
               subject: "Sample Subject",
               scheduledTimestamp: Math.floor(new Date().getTime() / 1000),
               fromNumber: await getFromNumber(),
-              fromNumber2: fromNumber,
+              // fromNumber2: fromNumber,
               toNumber: contact.phone!,
               // templateId: messageType.value === "TYPE_WHATSAPP" ? templateSelected?.idTemplate : null,
             };
