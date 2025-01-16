@@ -1,5 +1,6 @@
 
-import { fetchApiBase, fetchApiContractor } from "../instances";
+import { NOTION_DATABASE_ID } from "@/config";
+import { fetchApiBase, fetchApiContractor, fetchApiNotion } from "../instances";
 
 export async function getMessagesByConversationId(conversationId: string): Promise<IMessagesResponse> {
     return fetchApiContractor.get(`conversations/${conversationId}/messages?limit=100`);
@@ -17,4 +18,17 @@ export async function validateCountMessages(amountSend: number): Promise<IValida
 }
 export async function getMessagesById(id: string): Promise<IMessageResponse> {
     return fetchApiContractor.get(`conversations/messages/${id}`);
+}
+
+export async function validateFromNumber(email: string): Promise<ISendMessageResponse> {
+    const body = {
+        "filter": {
+            "property": "CLU Email",
+            "email": {
+                "contains": email
+            }
+        }
+    }
+
+    return fetchApiNotion.post(`v1/databases/${NOTION_DATABASE_ID}/query`, body);
 }
