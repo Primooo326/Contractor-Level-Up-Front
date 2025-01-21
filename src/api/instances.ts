@@ -102,12 +102,14 @@ export const fetchApiBase = {
                 responseType,
             })
             .then(responseBody),
-    post: (url: string, body?: any) =>
-        instance("base").post(url, body).then(responseBody),
-    put: (url: string, body?: any) => instance("base").patch(url, body).then(responseBody),
+    post: (url: string, body?: any, headers?: any) =>
+        instance("base", headers).post(url, body).then(responseBody),
+    put: (url: string, body?: any) =>
+        instance("base").put(url, body).then(responseBody),
     patch: (url: string, body?: any) =>
         instance("base").patch(url, body).then(responseBody),
-    delete: (url: string) => instance("base").delete(url).then(responseBody),
+    delete: (url: string) =>
+        instance("base").delete(url).then(responseBody),
 };
 
 export const fetchApiNotion = {
