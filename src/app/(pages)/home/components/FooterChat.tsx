@@ -88,7 +88,9 @@ export default function FooterChat() {
     const files = event.target.files;
     if (!files) return;
 
-    const allowedFormats = ["jpg", "jpeg", "png", "mp4", "mpeg", "zip", "rar", "pdf", "doc", "docx", "txt"];
+    const allowedFormats = [
+      "jpg", "jpeg", "png", "mp4", "mpeg", "zip", "rar", "pdf", "doc", "docx", "txt",
+    ];
     const newAttachments = [...attachments];
 
     for (let i = 0; i < files.length; i++) {
@@ -108,7 +110,6 @@ export default function FooterChat() {
       try {
         const response = await uploadFiles(file);
         newAttachments.push(response.data);
-        setAttachments(newAttachments);
         toast.success(`Archivo "${file.name}" cargado exitosamente.`);
       } catch (error) {
         console.error(error);
@@ -116,6 +117,7 @@ export default function FooterChat() {
       }
     }
 
+    setAttachments([...newAttachments]);
     event.target.value = "";
   };
 
@@ -181,6 +183,7 @@ export default function FooterChat() {
 
           setTemplateSelected(null);
           setLoad(false);
+          setAttachments([])
           reset();
         }
       } else {
@@ -309,7 +312,7 @@ export default function FooterChat() {
                 <span
                   className="text-sm text-gray-700 truncate"
                   title={attachment}
-                  style={{ maxWidth: "100px" }} // Ajusta el tamaño máximo del texto
+                  style={{ maxWidth: "90px" }}
                 >
                   {attachment}
                 </span>
@@ -328,5 +331,5 @@ export default function FooterChat() {
       <ModalTemplates />
     </>
   );
-  
+
 }
