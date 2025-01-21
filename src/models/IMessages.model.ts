@@ -90,6 +90,7 @@ interface ISendMessageBody {
     fromNumber2?: any;
     toNumber: string;
     templateId?: string;
+    attachments: string[]
 }
 
 interface ICreateLogBody {

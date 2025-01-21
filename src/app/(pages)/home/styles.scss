@@ -36,3 +36,46 @@
 }
 
 /* Opcional: Estilo al enfocar el textarea */
+
+.attachments-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Espaciado entre los elementos */
+    margin-top: 8px; /* Separación con el cuadro de texto */
+    padding: 8px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .attachments-list > div {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+    border-radius: 8px;
+    max-width: 150px; /* Ajusta el tamaño máximo del contenedor */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  .attachments-list > div span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100px; /* Ajusta el tamaño máximo del texto */
+  }
+  
+  .attachments-list > div button {
+    margin-left: 8px;
+    padding: 4px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .attachments-list > div button:hover {
+    background-color: #fdecea;
+  }
+  
